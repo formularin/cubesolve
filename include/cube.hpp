@@ -1,5 +1,5 @@
 /*=======================================
- cube.hpp:                     lol-cubes
+ cube.hpp:                      lol-cubes
  last modified:               Mon, Mar 30
  
  The `Cube` class, which represents a
@@ -29,7 +29,6 @@ class Cube {
     // Face's index in list corresponds to its center color.
     vector< vector< vector<int> > > faces;
 
-    void change_sticker(int face, int x, int y, int color);
     void turn(std::string move);
 
     // Solving functions
