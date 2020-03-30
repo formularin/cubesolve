@@ -15,25 +15,35 @@ using std::vector;
 
 
 std::map<std::string, int> move_coords = {
-    { "L", 0 },
-    { "R", 1 },
-    { "D", 0 },
-    { "U", 1 },
-    { "F", 0 },
-    { "B", 1 }
+    { "L", 2 },
+    { "R", 0 },
+    { "D", 2 },
+    { "U", 0 },
+    { "B", 2 },
+    { "F", 0 }
 };
 
 
 class Move {
+    public:
     int rotations;
-    std::string direction;  // C or CC
-    std::string axis;
+    // C or CC
+    // Perspectives:
+    // U or D -> from above
+    // R or L -> from the right
+    // F or B -> from the front
+    std::string direction;
 
-    // Arbitrarily decided value that specifies
-    // what pieces are being moved.
+    // Axes:
+    // x (U and D) -> 0
+    // y (R and L) -> 1
+    // z (F and B) -> 2
+    int axis;
+
+    // Index of row or col of 3x3 face vector that
+    // contains stickers that are changing.
     int coord;
 
-    public:
     std::string move;  // String representation.
     Move(std::string move_string);
 };

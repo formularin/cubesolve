@@ -12,16 +12,17 @@
 #include <string>
 #include <vector>
 
-// ints correspond to potential colors for each sticker.
-#define white 0
-#define yellow 1
-#define green 2
-#define blue 3
-#define red 4
-#define orange 5
-
+#include "moves.hpp"
 
 using std::vector;
+
+// ints correspond to potential colors for each sticker.
+#define green 0
+#define orange 1
+#define white 2
+#define blue 3
+#define red 4
+#define yellow 5
 
 
 class Cube {
@@ -29,7 +30,7 @@ class Cube {
     // Face's index in list corresponds to its center color.
     vector< vector< vector<int> > > faces;
 
-    void turn(std::string move);
+    void turn(Move move);
 
     // Solving functions
     void solve_op_op();
