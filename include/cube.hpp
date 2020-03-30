@@ -13,33 +13,30 @@
 #include <vector>
 
 // ints correspond to potential colors for each sticker.
-#define white 1
-#define yellow 2
-#define green 3
-#define blue 4
-#define red 5
-#define orange 6
+#define white 0
+#define yellow 1
+#define green 2
+#define blue 3
+#define red 4
+#define orange 5
 
 
 using std::vector;
 
 
 class Cube {
-    // Each face is a 3x3 vector of ints
-    vector< vector<int> > white_side();
-    vector< vector<int> > yellow_side();
-    vector< vector<int> > green_side();
-    vector< vector<int> > blue_side();
-    vector< vector<int> > red_side();
-    vector< vector<int> > orange_side();
+    // Each face is a 3x3 vector of ints.
+    // Face's index in list corresponds to its center color.
+    vector< vector< vector<int> > > faces;
 
-    void change_sticker(int side, int x, int y, int color);
+    void change_sticker(int face, int x, int y, int color);
+    void turn(std::string move);
 
     // Solving functions
-    void solve_op_op();  // Old Pochman
+    void solve_op_op();
 
     public:
     Cube();
     void solve(std::string method);
-    void turn(std::string move);
+    void scramble(std::string moves);
 };
