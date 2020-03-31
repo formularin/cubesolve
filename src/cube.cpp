@@ -7,6 +7,7 @@
 
 
 #include <algorithm>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -86,5 +87,17 @@ void Cube::turn(Move move) {
                 }
             }
         }
+    }
+}
+
+
+void Cube::print() {
+    // Outputs readable rendering of cube sticker faces to console.
+
+    std::string face_colors[6] = {"green", "orange", "white",
+                                  "blue", "red", "yellow"};
+    for ( int f = 0; f < 6; f++ ) {
+        std::cout << face_colors[f] << std::endl;
+        print_2d_vector(faces[f]);
     }
 }

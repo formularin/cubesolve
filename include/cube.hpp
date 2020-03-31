@@ -39,4 +39,5 @@ class Cube {
     Cube();
     void solve(std::string method);
     void scramble(std::string moves);
+    void print();
 };
