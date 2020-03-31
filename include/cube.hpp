@@ -1,6 +1,6 @@
 /*=======================================
  cube.hpp:                      lol-cubes
- last modified:               Mon, Mar 30
+ last modified:               Tue, Mar 31
  
  The `Cube` class, which represents a
  Rubik's Cube. Everything is organized in
@@ -16,6 +16,9 @@
 
 using std::vector;
 
+
+#ifndef CUBE_H
+#define CUBE_H
 // ints correspond to potential colors for each sticker.
 #define green 0
 #define orange 1
@@ -41,3 +44,5 @@ class Cube {
     void scramble(std::string moves);
     void print();
 };
+
+#endif

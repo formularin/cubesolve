@@ -1,7 +1,10 @@
 /*=======================================
- moves.hpp:                     lol-cubes
- last modified:               Mon, Mar 30
+ moves.cpp:                     lol-cubes
+ last modified:               Tue, Mar 31
  
- Classes pertaining to move notation.
- (Uses WCA notation)
+ Implemenations of methods for Move and
+ MoveString classes.
 ========================================*/
+
+
+#include "../include/moves.hpp"

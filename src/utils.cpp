@@ -1,6 +1,6 @@
 /*=======================================
  utils.hpp:                     lol-cubes
- last modified:               Mon, Mar 30
+ last modified:               Tue, Mar 31
  
  Useful function implementations.
 ========================================*/
@@ -16,7 +16,7 @@ using std::vector;
 
 
 bool get_int_in_vector(int i, vector<int> vec) {
-    return std::find(vec.begin(), vec.end(), i) != vec.end;
+    return std::find(vec.begin(), vec.end(), i) != vec.end();
 }
 
 

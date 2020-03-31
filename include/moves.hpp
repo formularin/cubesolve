@@ -1,9 +1,9 @@
 /*=======================================
  moves.hpp:                     lol-cubes
- last modified:               Mon, Mar 30
+ last modified:               Tue, Mar 31
  
  Classes pertaining to moves and move
- notation. (Uses WCA notation)
+ notation. (Uses WCA standards)
 ========================================*/
 
 
@@ -13,7 +13,12 @@
 
 using std::vector;
 
+#ifndef MOVES_H
+#define MOVES_H
 
+
+// Index of row or col of 3x3 face vector that contains stickers that
+// would change as a result of each move.
 std::map<std::string, int> move_coords = {
     { "L", 2 },
     { "R", 0 },
@@ -54,8 +59,9 @@ class MoveString {
     vector<std::string> comments;
 
     public:
-    // Print moves in readable format.
     std::string create_reconstruction();
     void add_comment(int index);
     MoveString(vector<Move> moves_string);
 };
+
+#endif

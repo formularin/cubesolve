@@ -1,6 +1,6 @@
 /*=======================================
  cube.cpp:                     lol-cubes
- last modified:               Mon, Mar 30
+ last modified:               Tue, Mar 31
  
  Implementations for the `Cube` class.
 ========================================*/
@@ -61,7 +61,7 @@ void Cube::turn(Move move) {
     }
 
     // Get list of all changed stickers.
-    vector< vector<int> > changed_stickers = changed_stickers;
+    vector< vector<int> > changed_stickers(4, vector<int>(4));
     if ( move.direction == "C" ) {
         changed_stickers[0] = changing_stickers[3];
         for ( int i = 1; i < 4; i++ ) {
