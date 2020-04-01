@@ -20,12 +20,7 @@ using std::vector;
 #ifndef CUBE_H
 #define CUBE_H
 // ints correspond to potential colors for each sticker.
-#define green 0
-#define orange 1
-#define white 2
-#define blue 3
-#define red 4
-#define yellow 5
+#define enum colors { green, orange, white, blue, red, yellow };
 
 
 class Cube {
