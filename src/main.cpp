@@ -18,6 +18,7 @@ using std::vector;
 int main(int argc, char** argv) {
     
     Cube cube = Cube();
+    cube.scramble("none");
     cube.print();
 
     return 0;

@@ -30,6 +30,10 @@ Cube::Cube() {
 }
 
 
+// Private functions
+// ----------------
+
+
 void Cube::turn(Move move) {
     // Performs one move on the cube. Changes stickers accordingly.
 
@@ -91,6 +95,10 @@ void Cube::turn(Move move) {
 }
 
 
+// Public functions
+// ----------------
+
+
 void Cube::print() {
     // Outputs readable rendering of cube sticker faces to console.
 
@@ -100,4 +108,14 @@ void Cube::print() {
         std::cout << face_colors[f] << std::endl;
         print_2d_vector(faces[f]);
     }
+}
+
+
+void Cube::scramble(std::string moves) {
+    // Performs inputted moves on cube.
+    // Moves should be in WCA notation and separated by spaces.
+    // Input string "none" executes a random scramble.
+
+    Move move = Move("R");
+    turn(move);
 }
