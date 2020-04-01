@@ -1,6 +1,7 @@
 .DS_Store
 .vscode
 bin/
+build/
 
 test
 test.cpp
