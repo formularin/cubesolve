@@ -37,7 +37,7 @@ Cube::Cube() {
 void Cube::turn(Move move) {
     // Performs one move on the cube. Changes stickers accordingly.
 
-    vector<int> untouched(2);
+    vector<int> untouched;
     for ( int i = 0; i < 2; i++ ) {
         untouched.push_back(2 * move.axis + move.coord);
     }

@@ -41,7 +41,7 @@ static std::map<char, std::string> move_directions = {
     { 'L', "CC" },
     { 'R', "C" },
     { 'D', "CC" },
-    { 'U' , "C" },
+    { 'U', "C" },
     { 'B', "CC" },
     { 'F', "C" }
 };

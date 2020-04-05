@@ -27,8 +27,8 @@ Move::Move(std::string move_string) {
         rotations = 1;
     }
 
-    int axis = move_axes[first_char];
-    int coords = move_coords[first_char];
+    axis = move_axes[first_char];
+    coord = move_coords[first_char];
 
     if ( last_char != '\'' ) {
         // Move is prime
