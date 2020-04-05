@@ -39,14 +39,14 @@ void Cube::turn(Move move) {
 
     vector<int> untouched;
     for ( int i = 0; i < 2; i++ ) {
-        untouched.push_back(2 * move.axis + move.coord);
+        untouched.push_back(((i * 3) + 2) - move.axis);
     }
 
     // Vector of each sticker that is changing in each face.
     // Only 4 faces change, and 3 stickers per face change per move.
     // Will always be in order of movement because of arrangement of
     // faces in faces member.
-    vector< vector<int> > changing_stickers(4, vector<int>(3));
+    vector< vector<int> > changing_stickers;
     for ( int f = 0; f < 6; f++ ) {
         if ( !get_int_in_vector(f, untouched) ) {
             vector< vector<int> > face = faces[f];
@@ -55,7 +55,7 @@ void Cube::turn(Move move) {
                 changing_stickers.push_back(face[move.coord]);
             } else {
                 // Moving stickers are in a column.
-                vector<int> face_changing_stickers(3);
+                vector<int> face_changing_stickers;
                 for ( int i = 0; i < 3; i++ ) {
                     face_changing_stickers.push_back(face[i][move.coord]);
                 }
@@ -65,7 +65,7 @@ void Cube::turn(Move move) {
     }
 
     // Get list of all changed stickers.
-    vector< vector<int> > changed_stickers(4, vector<int>(4));
+    vector< vector<int> > changed_stickers(4, vector<int>(3));
     if ( move.direction == "C" ) {
         changed_stickers[0] = changing_stickers[3];
         for ( int i = 1; i < 4; i++ ) {
@@ -77,19 +77,24 @@ void Cube::turn(Move move) {
             changed_stickers[i] = changing_stickers[i + 1];
         }
     }
+    // print_2d_vector(changing_stickers);
+    // print_2d_vector(changed_stickers);
+    // std::cout << changing_stickers[0].size() << std::endl;
 
     // Apply changed stickers to faces.
+    int face = 0;
     for ( int f = 0; f < 6; f++ ) {
         if ( !get_int_in_vector(f, untouched) ) {
             if ( move.axis != 1 ) {
                 // Moving stickers are in a row.
-                faces[f][move.coord] = changed_stickers[f];
+                faces[f][move.coord] = changed_stickers[face];
             } else {
                 // Moving stickers are in a column.
                 for ( int i = 0; i < 3; i++ ) {
-                    faces[f][i][move.coord] = changed_stickers[f][i];
+                    faces[f][i][move.coord] = changed_stickers[face][i];
                 }
             }
+            face++;
         }
     }
 }

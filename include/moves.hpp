@@ -20,8 +20,8 @@ using std::vector;
 // Index of row or col of 3x3 face vector that contains stickers that
 // would change as a result of each move.
 static std::map<char, int> move_coords = {
-    { 'L', 2 },
-    { 'R', 0 },
+    { 'L', 0 },
+    { 'R', 2 },
     { 'D', 2 },
     { 'U', 0 },
     { 'B', 2 },
