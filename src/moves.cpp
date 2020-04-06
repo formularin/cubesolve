@@ -13,6 +13,11 @@
 #include "../include/moves.hpp"
 
 
+// ***********************
+// Move
+// ***********************
+
+
 Move::Move(std::string move_string) {
     // Move class constructor.
 
@@ -41,4 +46,16 @@ Move::Move(std::string move_string) {
         }
     }
 
+}
+
+
+// ***********************
+// MoveString
+// ***********************
+
+
+MoveString::MoveString(vector<Move> move_string) {
+    // MoveString class constructor.
+
+    moves = move_string;
 }
