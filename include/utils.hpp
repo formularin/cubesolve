@@ -12,4 +12,4 @@ using std::vector;
 
 
 bool get_int_in_vector(int i, vector<int> vec);
-void print_2d_vector(vector< vector<int> > vec);
+void print_2d_vector(vector< vector<int> > vec, bool color);

@@ -111,7 +111,7 @@ void Cube::print() {
                                   "blue", "red", "yellow"};
     for ( int f = 0; f < 6; f++ ) {
         std::cout << face_colors[f] << std::endl;
-        print_2d_vector(faces[f]);
+        print_2d_vector(faces[f], true);
     }
 }
 
