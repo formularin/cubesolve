@@ -8,7 +8,9 @@
 
 #include <algorithm>
 #include <iostream>
+#include <iterator>
 #include <string>
+#include <sstream>
 #include <vector>
 
 #include "../include/cube.hpp"
@@ -120,6 +122,10 @@ void Cube::execute(std::string moves) {
     // Performs inputted moves on cube.
     // Moves should be in WCA notation and separated by spaces.
 
-    Move move = Move("R");
-    turn(move);
+    std::istringstream iss(moves);
+    vector<std::string> move_strings{std::istream_iterator<std::string>{iss},
+                                     std::istream_iterator<std::string>{}};
+    for ( std::string move : move_strings ) {
+        turn(Move(move));
+    }
 }
