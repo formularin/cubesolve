@@ -116,10 +116,9 @@ void Cube::print() {
 }
 
 
-void Cube::scramble(std::string moves) {
+void Cube::execute(std::string moves) {
     // Performs inputted moves on cube.
     // Moves should be in WCA notation and separated by spaces.
-    // Input string "none" executes a random scramble.
 
     Move move = Move("R");
     turn(move);

@@ -36,7 +36,8 @@ class Cube {
     public:
     Cube();
     void solve(std::string method);
-    void scramble(std::string moves);
+    void execute(std::string moves);
+    void scramble();
     void print();
 };
 
