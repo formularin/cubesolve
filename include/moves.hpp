@@ -45,16 +45,26 @@ static std::map<char, std::string> move_directions = {
     { 'B', "CC" },
     { 'F', "C" }
 };
+// Which face is being rotated on each kind of move.
+static std::map<char, int> move_faces = {
+    { 'F', 0 },
+    { 'L', 1 },
+    { 'U', 2 },
+    { 'B', 3 },
+    { 'R', 4 },
+    { 'd', 5 }
+};
 
 
 class Move {
     public:
-    int rotations;
+    char first_char;
     // C or CC
     // Perspectives:
     // U or D -> from above
     // R or L -> from the right
     // F or B -> from the front
+    int rotations;
     std::string direction;
 
     // Axes:

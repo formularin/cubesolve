@@ -45,3 +45,24 @@ void print_2d_vector(vector< vector<int> > vec, bool color) {
         std::cout << std::endl;
     }
 }
+
+
+vector< vector<int> > rotate_face(vector< vector<int> > face, std::string direction) {
+    // Best explained by example:
+    // 5 5 5  CC  1 1 5
+    // 1 1 6  ->  1 1 5
+    // 1 1 6      6 6 5
+    // Direction is "C" or "CC"
+
+    vector< vector<int> > rotated_vec(face.back().size(), vector<int>(face.size()));
+    for ( int x = 0; x < face.size(); x++ ) {
+        for ( int y = 0; y < face[x].size(); y++ ) {
+            if ( direction == "CC" ) {
+                rotated_vec[face[x].size() - (y + 1)][x] = face[x][y];
+            } else if ( direction == "C" ) {
+                rotated_vec[y][x] = face[x][y];
+            }
+        }
+    }
+    return rotated_vec;
+}

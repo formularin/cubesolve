@@ -24,7 +24,7 @@ Move::Move(std::string move_string) {
     move = move_string;
 
     char last_char = move_string.at(move_string.size() - 1);
-    char first_char = move_string.at(0);
+    first_char = move_string.at(0);
 
     if ( last_char == '2' ) {
         rotations = 2;

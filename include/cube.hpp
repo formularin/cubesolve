@@ -11,6 +11,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "moves.hpp"
 
@@ -29,6 +30,9 @@ class Cube {
     vector< vector< vector<int> > > faces;
 
     void turn(Move move);
+
+    // Which direction each face is affected in when moved on each axis.
+    static char direction(int face_index, int axis);
 
     // Solving functions
     void solve_op_op();

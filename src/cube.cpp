@@ -36,9 +36,44 @@ Cube::Cube() {
 // ----------------
 
 
+// static method
+char Cube::direction(int face_index, int axis) {
+    // Returns whether face with index `face_index` when turned on axis
+    // `axis` will have rows or columns affected.
+    // Returns 'r' if rows, 'c' if columns.
+
+    switch ( face_index ) {
+        // Blue or Green
+        case 0:
+        case 3:
+            switch ( axis ) {
+                case 0: return 'r';
+                case 1: return 'c';
+            }
+        // Red or Orange
+        case 1:
+        case 4:
+            switch ( axis ) {
+                case 0: return 'r';
+                case 2: return 'c';
+            }
+        // White or Yellow
+        case 2:
+        case 5:
+            switch ( axis ) {
+                case 1: return 'c';
+                case 2: return 'r';
+            }
+        default:
+            throw 20;
+    }
+}
+
+
 void Cube::turn(Move move) {
     // Performs one move on the cube. Changes stickers accordingly.
 
+    // Sides that keep all their stickers.
     vector<int> untouched;
     for ( int i = 0; i < 2; i++ ) {
         untouched.push_back(((i * 3) + 2) - move.axis);
@@ -52,10 +87,10 @@ void Cube::turn(Move move) {
     for ( int f = 0; f < 6; f++ ) {
         if ( !get_int_in_vector(f, untouched) ) {
             vector< vector<int> > face = faces[f];
-            if ( move.axis != 1 ) {
+            if ( direction(f, move.axis) == 'r' ) {
                 // Moving stickers are in a row.
                 changing_stickers.push_back(face[move.coord]);
-            } else {
+            } else if ( direction(f, move.axis) == 'c' ) {
                 // Moving stickers are in a column.
                 vector<int> face_changing_stickers;
                 for ( int i = 0; i < 3; i++ ) {
@@ -79,18 +114,15 @@ void Cube::turn(Move move) {
             changed_stickers[i] = changing_stickers[i + 1];
         }
     }
-    // print_2d_vector(changing_stickers);
-    // print_2d_vector(changed_stickers);
-    // std::cout << changing_stickers[0].size() << std::endl;
 
     // Apply changed stickers to faces.
     int face = 0;
     for ( int f = 0; f < 6; f++ ) {
         if ( !get_int_in_vector(f, untouched) ) {
-            if ( move.axis != 1 ) {
+            if ( direction(f, move.axis) == 'r' ) {
                 // Moving stickers are in a row.
                 faces[f][move.coord] = changed_stickers[face];
-            } else {
+            } else if ( direction(f, move.axis) == 'c' ) {
                 // Moving stickers are in a column.
                 for ( int i = 0; i < 3; i++ ) {
                     faces[f][i][move.coord] = changed_stickers[face][i];
@@ -99,6 +131,10 @@ void Cube::turn(Move move) {
             face++;
         }
     }
+
+    // Rotate the face that was turned.
+    int rotated_face_index = move_faces[move.first_char];
+    faces[rotated_face_index] = rotate_face(faces[rotated_face_index], move.direction);
 }
 
 
