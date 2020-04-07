@@ -146,11 +146,27 @@ void Cube::turn(Move move) {
 void Cube::print() {
     // Outputs readable rendering of cube sticker faces to console.
 
-    std::string face_colors[6] = {"green", "orange", "white",
-                                  "blue", "red", "yellow"};
-    for ( int f = 0; f < 6; f++ ) {
-        std::cout << face_colors[f] << std::endl;
-        print_2d_vector(faces[f], true);
+    // std::string face_colors[6] = {"green", "orange", "white",
+    //                               "blue", "red", "yellow"};
+    for ( vector<int> row : faces[2] ) {
+        std::cout << "       ";
+        print_sticker_row(row);
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+    vector<int> middle_faces = {1, 0, 4, 3};
+    for ( int i = 0; i < 3; i++ ) {
+        for ( int f : middle_faces ) {
+            print_sticker_row(faces[f][i]);
+            std::cout << " ";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+    for ( vector<int> row : faces[5] ) {
+        std::cout << "       ";
+        print_sticker_row(row);
+        std::cout << std::endl;
     }
 }
 
