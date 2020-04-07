@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <iostream>
 #include <iterator>
+#include <cmath>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -89,12 +90,12 @@ void Cube::turn(Move move) {
             vector< vector<int> > face = faces[f];
             if ( direction(f, move.axis) == 'r' ) {
                 // Moving stickers are in a row.
-                changing_stickers.push_back(face[move.coord]);
+                changing_stickers.push_back(face[std::abs(move.coords[f] - 2)]);
             } else if ( direction(f, move.axis) == 'c' ) {
                 // Moving stickers are in a column.
                 vector<int> face_changing_stickers;
                 for ( int i = 0; i < 3; i++ ) {
-                    face_changing_stickers.push_back(face[i][move.coord]);
+                    face_changing_stickers.push_back(face[i][move.coords[f]]);
                 }
                 changing_stickers.push_back(face_changing_stickers);
             }
@@ -121,11 +122,11 @@ void Cube::turn(Move move) {
         if ( !get_int_in_vector(f, untouched) ) {
             if ( direction(f, move.axis) == 'r' ) {
                 // Moving stickers are in a row.
-                faces[f][move.coord] = changed_stickers[face];
+                faces[f][std::abs(move.coords[f] - 2)] = changed_stickers[face];
             } else if ( direction(f, move.axis) == 'c' ) {
                 // Moving stickers are in a column.
                 for ( int i = 0; i < 3; i++ ) {
-                    faces[f][i][move.coord] = changed_stickers[face][i];
+                    faces[f][i][move.coords[f]] = changed_stickers[face][i];
                 }
             }
             face++;

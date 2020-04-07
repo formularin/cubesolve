@@ -19,13 +19,13 @@ using std::vector;
 
 // Index of row or col of 3x3 face vector that contains stickers that
 // would change as a result of each move.
-static std::map<char, int> move_coords = {
-    { 'L', 0 },
-    { 'R', 2 },
-    { 'D', 2 },
-    { 'U', 0 },
-    { 'B', 2 },
-    { 'F', 0 }
+static std::map<char, vector<int> > move_coords = {
+    { 'L', {0, 0, 0, 2, 0, 0} },
+    { 'R', {2, 0, 2, 0, 0, 2} },
+    { 'D', {0, 0, 0, 0, 0, 0} },
+    { 'U', {2, 2, 0, 2, 2, 0} },
+    { 'B', {0, 0, 2, 2, 2, 0} },
+    { 'F', {0, 2, 0, 0, 0, 2} }
 };
 static std::map<char, int> move_axes = {
     { 'L', 1 },
@@ -74,8 +74,8 @@ class Move {
     int axis;
 
     // Index of row or col of 3x3 face vector that
-    // contains stickers that are changing.
-    int coord;
+    // contains stickers that are changing for each face.
+    vector<int> coords;
 
     std::string move;  // String representation.
     Move(std::string move_string);

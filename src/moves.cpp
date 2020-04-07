@@ -33,7 +33,7 @@ Move::Move(std::string move_string) {
     }
 
     axis = move_axes[first_char];
-    coord = move_coords[first_char];
+    coords = move_coords[first_char];
 
     if ( last_char != '\'' ) {
         // Move is prime
