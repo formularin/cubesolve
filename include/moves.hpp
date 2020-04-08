@@ -42,7 +42,7 @@ static std::map<char, int> move_faces = {
     { 'U', 2 },
     { 'B', 3 },
     { 'R', 4 },
-    { 'd', 5 }
+    { 'D', 5 }
 };
 
 
