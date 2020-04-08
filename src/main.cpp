@@ -18,8 +18,13 @@ using std::vector;
 int main(int argc, char** argv) {
 
     Cube cube = Cube();
-    cube.execute("D");
-    cube.print();
+    try {
+        std::string scramble = argv[1];
+        cube.execute(scramble);
+        cube.print();
+    } catch (int x) {
+        std::cout << "Usage: cubesolve <scramble> <method>" << std::endl;
+    }
 
     return 0;
 }
