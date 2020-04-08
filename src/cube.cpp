@@ -138,12 +138,24 @@ void Cube::turn(Move move) {
 
     // Get list of all changed stickers.
     vector< vector<int> > changed_stickers(4, vector<int>(3));
-    if ( move.direction == "C" ) {
+
+    // Turns whose directions need to be swapped.
+    vector<char> backwards_moves = {'L', 'B', 'D'};
+    bool backwards_move = std::find(
+            backwards_moves.begin(),
+            backwards_moves.end(),
+            move.first_char
+        ) != backwards_moves.end();
+    if (
+            (move.direction == "C" && !backwards_move)
+         || (move.direction == "CC" && backwards_move) ) {
         changed_stickers[0] = changing_stickers[3];
         for ( int i = 1; i < 4; i++ ) {
             changed_stickers[i] = changing_stickers[i - 1];
         }
-    } else if ( move.direction == "CC" ) {
+    } else if (
+            (move.direction == "CC" && !backwards_move)
+         || (move.direction == "C" && backwards_move) ) {
         changed_stickers[3] = changing_stickers[0];
         for ( int i = 0; i < 3; i++ ) {
             changed_stickers[i] = changing_stickers[i + 1];
