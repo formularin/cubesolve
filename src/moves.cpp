@@ -26,12 +26,6 @@ Move::Move(std::string move_string) {
     char last_char = move_string.at(move_string.size() - 1);
     first_char = move_string.at(0);
 
-    if ( last_char == '2' ) {
-        rotations = 2;
-    } else {
-        rotations = 1;
-    }
-
     axis = move_axes[first_char];
     coords = move_coords[first_char];
 

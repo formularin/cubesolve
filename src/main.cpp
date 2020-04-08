@@ -18,7 +18,7 @@ using std::vector;
 int main(int argc, char** argv) {
     
     Cube cube = Cube();
-    cube.execute("F R U' R' U' R U R' F'");
+    cube.execute("R B");
     cube.print();
 
     return 0;

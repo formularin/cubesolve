@@ -47,6 +47,8 @@ static std::map<char, int> move_faces = {
 
 
 class Move {
+    // A quarter-turn.
+
     public:
     char first_char;
     // C or CC
@@ -54,7 +56,6 @@ class Move {
     // U or D -> from above
     // R or L -> from the right
     // F or B -> from the front
-    int rotations;
     std::string direction;
 
     // Axes:

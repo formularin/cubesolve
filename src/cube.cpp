@@ -211,6 +211,14 @@ void Cube::execute(std::string moves) {
     vector<std::string> move_strings{std::istream_iterator<std::string>{iss},
                                      std::istream_iterator<std::string>{}};
     for ( std::string move : move_strings ) {
-        turn(Move(move));
+        if ( move.length() > 1 && move.at(1) == '2' ) {
+            std::string first_char;
+            first_char.push_back(move.at(0));
+            for ( int i = 0; i < 2; i++ ) {
+                turn(Move(first_char));
+            }
+        } else {
+            turn(Move(move));
+        }
     }
 }
