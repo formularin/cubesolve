@@ -1,6 +1,6 @@
 /*=======================================
  cube.hpp:                      lol-cubes
- last modified:               Tue, Mar 31
+ last modified:               Wed, Apr 08
  
  The `Cube` class, which represents a
  Rubik's Cube. Everything is organized in
@@ -29,20 +29,15 @@ class Cube {
     // Face's index in list corresponds to its center color.
     vector< vector< vector<int> > > faces;
 
-    void turn(Move move);
-
     // Which direction each face is affected in when moved on each axis.
     static char direction(int face_index, int axis);
 
-    // Solving functions
-    void solve_op_op();
-
     public:
     Cube();
-    void solve(std::string method);
     void execute(std::string moves);
-    void scramble();
+    void scramble();  // Execute random moves.
     void print();
+    void turn(Move move);
 };
 
 #endif

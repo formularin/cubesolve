@@ -1,6 +1,6 @@
 /*=======================================
- cube.cpp:                     lol-cubes
- last modified:               Tue, Mar 31
+ cube.cpp:                      lol-cubes
+ last modified:               Wed, Apr 08
  
  Implementations for the `Cube` class.
 ========================================*/
@@ -69,6 +69,10 @@ char Cube::direction(int face_index, int axis) {
             throw 20;
     }
 }
+
+
+// Public functions
+// ----------------
 
 
 void Cube::turn(Move move) {
@@ -183,10 +187,6 @@ void Cube::turn(Move move) {
     int rotated_face_index = move_faces[move.first_char];
     faces[rotated_face_index] = rotate_face(faces[rotated_face_index], move.direction);
 }
-
-
-// Public functions
-// ----------------
 
 
 void Cube::print() {

@@ -1,6 +1,6 @@
 /*=======================================
  moves.hpp:                     lol-cubes
- last modified:               Tue, Mar 31
+ last modified:               Wed, Apr 08
  
  Classes pertaining to moves and move
  notation. (Uses WCA standards)
@@ -81,6 +81,7 @@ class MoveString {
     std::string create_reconstruction();
     void add_comment(int index);
     MoveString(vector<Move> moves_string);
+    void print();
 };
 
 #endif
