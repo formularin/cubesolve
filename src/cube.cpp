@@ -87,15 +87,49 @@ void Cube::turn(Move move) {
     vector< vector<int> > changing_stickers;
     for ( int f = 0; f < 6; f++ ) {
         if ( !get_int_in_vector(f, untouched) ) {
+            // Get list of faces whose row or col of pieces moved should be reversed.
             vector< vector<int> > face = faces[f];
+            vector<int> reversed_faces;
+            if        ( (move.first_char == 'R' && move.direction == "CC")
+                     || (move.first_char == 'L' && move.direction == "C") ) {
+                reversed_faces = {3, 5};
+            } else if ( (move.first_char == 'R' && move.direction == "C")
+                     || (move.first_char == 'L' && move.direction == "CC") ) {
+                reversed_faces = {2, 3};
+            } else if ( (move.first_char == 'F' && move.direction == "CC")
+                     || (move.first_char == 'B' && move.direction == "C") ) {
+                reversed_faces = {2, 5};
+            } else if ( (move.first_char == 'F' && move.direction == "C")
+                     || (move.first_char == 'B' && move.direction == "CC") ) {
+                reversed_faces = {4, 1};
+            }
+            bool face_is_reversed;
+            if ( get_int_in_vector(f, reversed_faces) ) {
+                face_is_reversed = true;
+            } else {
+                face_is_reversed = false;
+            }
+
             if ( direction(f, move.axis) == 'r' ) {
                 // Moving stickers are in a row.
-                changing_stickers.push_back(face[std::abs(move.coords[f] - 2)]);
+                if ( face_is_reversed ) {
+                    vector<int> face_changing_stickers;
+                    face_changing_stickers = face[std::abs(move.coords[f] - 2)];
+                    std::reverse(face_changing_stickers.begin(),
+                                 face_changing_stickers.end());
+                    changing_stickers.push_back(face_changing_stickers);
+                } else {
+                    changing_stickers.push_back(face[std::abs(move.coords[f] - 2)]);
+                }
             } else if ( direction(f, move.axis) == 'c' ) {
                 // Moving stickers are in a column.
                 vector<int> face_changing_stickers;
                 for ( int i = 0; i < 3; i++ ) {
-                    face_changing_stickers.push_back(face[i][move.coords[f]]);
+                    if ( face_is_reversed ) {
+                        face_changing_stickers.push_back(face[2 - i][move.coords[f]]);
+                    } else {
+                        face_changing_stickers.push_back(face[i][move.coords[f]]);
+                    }
                 }
                 changing_stickers.push_back(face_changing_stickers);
             }
@@ -146,8 +180,6 @@ void Cube::turn(Move move) {
 void Cube::print() {
     // Outputs readable rendering of cube sticker faces to console.
 
-    // std::string face_colors[6] = {"green", "orange", "white",
-    //                               "blue", "red", "yellow"};
     for ( vector<int> row : faces[2] ) {
         std::cout << "       ";
         print_sticker_row(row);

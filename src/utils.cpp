@@ -41,20 +41,41 @@ void print_sticker_row(vector<int> stickers) {
 
 vector< vector<int> > rotate_face(vector< vector<int> > face, std::string direction) {
     // Best explained by example:
-    // 5 5 5  CC  1 1 5
+    // 5 5 5  C   1 1 5
     // 1 1 6  ->  1 1 5
     // 1 1 6      6 6 5
-    // Direction is "C" or "CC"
+    // Direction is "C" or "CC". As of right now, only takes 3x3 vectors.
 
-    vector< vector<int> > rotated_vec(face.back().size(), vector<int>(face.size()));
-    for ( int x = 0; x < face.size(); x++ ) {
-        for ( int y = 0; y < face[x].size(); y++ ) {
-            if ( direction == "CC" ) {
-                rotated_vec[face[x].size() - (y + 1)][x] = face[x][y];
-            } else if ( direction == "C" ) {
-                rotated_vec[y][x] = face[x][y];
-            }
-        }
+    vector< vector<int> > rotated_face(3, vector<int>(3));
+
+    if ( direction == "C" ) {
+        // Corners
+        rotated_face[0][0] = face[2][0];
+        rotated_face[0][2] = face[0][0];
+        rotated_face[2][2] = face[0][2];
+        rotated_face[2][0] = face[2][2];
+
+        // Edges
+        rotated_face[0][1] = face[1][0];
+        rotated_face[1][0] = face[2][1];
+        rotated_face[1][2] = face[0][1];
+        rotated_face[2][1] = face[1][2];
+    } else if ( direction == "CC" ) {
+        // Corners
+        rotated_face[0][0] = face[0][2];
+        rotated_face[0][2] = face[2][2];
+        rotated_face[2][2] = face[2][0];
+        rotated_face[2][0] = face[0][0];
+
+        // Edges
+        rotated_face[0][1] = face[1][2];
+        rotated_face[1][0] = face[0][1];
+        rotated_face[1][2] = face[2][1];
+        rotated_face[2][1] = face[1][0];
     }
-    return rotated_vec;
+
+    // Center
+    rotated_face[1][1] = face[1][1];
+
+    return rotated_face;
 }

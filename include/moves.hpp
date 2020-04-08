@@ -35,16 +35,6 @@ static std::map<char, int> move_axes = {
     { 'B', 2 },
     { 'F', 2 }
 };
-// What direction attribute a move object should have for each face
-// being moved if move is not prime.
-static std::map<char, std::string> move_directions = {
-    { 'L', "CC" },
-    { 'R', "C" },
-    { 'D', "CC" },
-    { 'U', "C" },
-    { 'B', "CC" },
-    { 'F', "C" }
-};
 // Which face is being rotated on each kind of move.
 static std::map<char, int> move_faces = {
     { 'F', 0 },

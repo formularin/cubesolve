@@ -36,14 +36,11 @@ Move::Move(std::string move_string) {
     coords = move_coords[first_char];
 
     if ( last_char != '\'' ) {
-        // Move is prime
-        direction = move_directions[first_char];
+        // Move is not prime.
+        direction = "C";
     } else {
-        if ( move_directions[first_char] == "C" ) {
-            direction = "CC";
-        } else {
-            direction = "C";
-        }
+        // Move is prime.
+        direction = "CC";
     }
 
 }
