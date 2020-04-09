@@ -50,3 +50,8 @@ MoveString::MoveString(vector<Move> move_string) {
 
     moves = move_string;
 }
+
+
+void MoveString::print() {
+    // Prints a string that can be interpreted by a human.
+}
