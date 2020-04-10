@@ -24,6 +24,22 @@ using std::vector;
 // ints correspond to potential colors for each sticker.
 #define enum colors { green, orange, white, blue, red, yellow };
 
+// Coordinate pairs in `faces` for stickers of edge pieces.
+static vector< vector< vector<int> > > adjacent_edge_stickers = {
+    { {0, 0, 1}, {2, 2, 1} },
+    { {0, 1, 0}, {1, 1, 2} },
+    { {0, 1, 2}, {4, 1, 0} },
+    { {0, 2, 1}, {5, 0, 1} },
+    { {1, 0, 1}, {2, 1, 0} },
+    { {1, 1, 0}, {3, 1, 2} },
+    { {1, 2, 1}, {5, 1, 0} },
+    { {2, 0, 1}, {3, 0, 1} },
+    { {2, 1, 2}, {4, 0, 1} },
+    { {3, 1, 0}, {4, 1, 2} },
+    { {3, 2, 1}, {5, 2, 1} },
+    { {4, 2, 1}, {5, 1, 2} }
+};
+
 class Cube {
     // Each face is a 3x3 vector of ints.
     // Face's index in list corresponds to its center color.
