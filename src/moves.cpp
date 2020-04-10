@@ -11,6 +11,7 @@
 #include <string>
 
 #include "../include/moves.hpp"
+#include "../include/utils.hpp"
 
 
 // ***********************
@@ -54,4 +55,17 @@ MoveString::MoveString(vector<Move> move_string) {
 
 void MoveString::print() {
     // Prints a string that can be interpreted by a human.
+
+    vector<int> comment_indices;
+    for ( std::map<int, std::string>::iterator it = comments.begin();
+          it != comments.end(); ++it ) {
+        comment_indices.push_back(it -> first);
+    }
+
+    for ( int i = 0; i < moves.size(); i++ ) {
+        if ( get_int_in_vector(i, comment_indices) ) {
+            std::cout << "  //" << comments[i] << std::endl;
+        }
+        std::cout << moves[i].move << " ";
+    }
 }

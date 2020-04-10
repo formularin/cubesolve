@@ -75,11 +75,11 @@ class Move {
 
 class MoveString {
     vector<Move> moves;
-    vector<std::string> comments;
+    std::map<int, std::string> comments;
 
     public:
     std::string create_reconstruction();
-    void add_comment(int index);
+    void add_comment(int index, std::string comment);
     MoveString(vector<Move> moves_string);
     void print();
 };
