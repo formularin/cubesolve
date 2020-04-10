@@ -14,6 +14,7 @@
 #include "../../include/methods/op_op.hpp"
 #include "../../include/cube.hpp"
 #include "../../include/moves.hpp"
+#include "../../include/utils.hpp"
 
 using std::vector;
 
@@ -77,7 +78,36 @@ static std::map<char, std::string> edge_algorithms = {
 };
 
 
+char get_adjacent_sticker(char sticker) {
+    // Returns the sticker on the same edge as the sticker passed as an argument.
+
+    for ( vector< vector<int> > edge : adjacent_edge_stickers ) {
+        vector<char> edge_stickers;
+        for ( vector<int> sticker_coords : edge ) {
+            edge_stickers.push_back(
+                lettering_scheme[sticker_coords[0]]
+                                [sticker_coords[1]]
+                                [sticker_coords[2]]);
+        }
+        for ( int s = 0; s < 2; s++ ) {
+            if ( edge_stickers[s] == sticker ) {
+                return edge_stickers[1 - s];
+            }
+        }
+    }
+    return 'z';
+}
+
+
 MoveString solve_op_op(Cube cube) {
     // Returns MoveString containing solution and explanatory comments.
     // Cube enters solved state.
+
+    vector<Move> solution_moves;
+
+    // Memorization
+
+    // Edges
+    vector<char> solved_edge_stickers;
+    vector< vector<char> > edge_cycles;
 }

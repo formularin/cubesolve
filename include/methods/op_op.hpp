@@ -11,4 +11,5 @@
 #include "../cube.hpp"
 
 
+char get_adjacent_sticker(char sticker);
 MoveString solve_op_op(Cube cube);
