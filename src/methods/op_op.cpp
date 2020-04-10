@@ -7,6 +7,7 @@
 ========================================*/
 
 
+#include <iostream>
 #include <map>
 #include <vector>
 #include <string>
@@ -110,4 +111,25 @@ MoveString solve_op_op(Cube cube) {
     // Edges
     vector<char> solved_edge_stickers;
     vector< vector<char> > edge_cycles;
+   
+    // Check for pieces that are already solved.
+    for ( vector< vector<int> > edge : adjacent_edge_stickers ) {
+        bool edge_solved = true;
+        for ( int s = 0; s < 2; s++ ) {
+            if ( !(cube.faces[edge[s][0]][edge[s][1]][edge[s][2]]
+                == cube.faces[edge[s][0]][1][1]) ) {
+                edge_solved = false;
+            }
+        }
+        // Did not continue, so both the stickers are on the correct
+        // face, therefore the edge is solved.
+        if ( edge_solved ) {
+            for ( int s = 0; s < 2; s++ ) {
+                solved_edge_stickers.push_back(
+                    lettering_scheme[edge[s][0]][edge[s][1]][edge[s][2]]);
+            }
+        }
+    }
+
+    return MoveString({Move("R")});
 }

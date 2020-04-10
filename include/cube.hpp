@@ -41,10 +41,6 @@ static vector< vector< vector<int> > > adjacent_edge_stickers = {
 };
 
 class Cube {
-    // Each face is a 3x3 vector of ints.
-    // Face's index in list corresponds to its center color.
-    vector< vector< vector<int> > > faces;
-
     // Which direction each face is affected in when moved on each axis.
     static char direction(int face_index, int axis);
 
@@ -54,6 +50,9 @@ class Cube {
     void scramble();  // Execute random moves.
     void print();
     void turn(Move move);
+    // Each face is a 3x3 vector of ints.
+    // Face's index in list corresponds to its center color.
+    vector< vector< vector<int> > > faces;
 };
 
 #endif

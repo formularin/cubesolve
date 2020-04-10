@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
         std::string scramble = argv[1];
         cube.execute(scramble);
         cube.print();
-        if ( argv[2] == "opop" ) {
+        if ( std::strcmp( argv[2], "opop") == 0 ) {
             MoveString solution = solve_op_op(cube);
             solution.print();
         }
