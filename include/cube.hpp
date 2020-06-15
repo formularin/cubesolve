@@ -43,6 +43,9 @@ static vector< vector< vector<int> > > adjacent_edge_stickers = {
 class Cube {
     // Which direction each face is affected in when moved on each axis.
     static char direction(int face_index, int axis);
+    static std::string choose_move(vector<std::string> current_moves,
+                                   vector< vector<std::string> > axes,
+                                   vector< vector<std::string> > sides);
 
     public:
     Cube();

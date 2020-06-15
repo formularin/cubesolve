@@ -13,6 +13,9 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <random>
+
+#include <boost/algorithm/string/join.hpp>
 
 #include "../include/cube.hpp"
 #include "../include/moves.hpp"
@@ -68,6 +71,48 @@ char Cube::direction(int face_index, int axis) {
         default:
             throw 20;
     }
+}
+
+
+std::string Cube::choose_move(vector<std::string> current_moves,
+                              vector< vector<std::string> > axes,
+                              vector< vector<std::string> > sides) {
+    // Chooses a move based of a list of moves already chosen that isn't redundant.
+    // Translated from:
+    // https://github.com/lol-cubes/cl-timer/blob/master/cl_timer/scramble.py
+
+    std::string move = move_notations[std::rand() % move_notations.size()];
+    
+    // Find which axis and which side the move belongs to.
+    vector<std::string> move_axis;
+    for ( vector<std::string> axis : axes ) {
+        if ( get_string_in_vector(move, axis) ) {
+            move_axis = axis;
+        }
+    }
+    vector<std::string> move_side;
+    for ( vector<std::string> side : sides ) {
+        if ( get_string_in_vector(move, side) ) {
+            move_side = side;
+        }
+    }
+
+    // Previous moves of the same axis.
+    int last_move_of_different_axis = -1;
+    for ( int m = 0; m < current_moves.size(); m++ ) {
+        if ( !get_string_in_vector(current_moves[m], move_axis) ) {
+            last_move_of_different_axis = m;
+        }
+    }
+
+    // Find if any moves of the same side as `move`
+    // have been done since the last move of a different axis.
+    for ( int m = current_moves.size() - 1; m > last_move_of_different_axis; m-- ) {
+        if ( get_string_in_vector(current_moves[m], move_side) ) {
+            return choose_move(current_moves, axes, sides);
+        }
+    }
+    return move;
 }
 
 
@@ -233,4 +278,32 @@ void Cube::execute(std::string moves) {
             turn(Move(move));
         }
     }
+}
+
+
+void Cube::scramble() {
+    // Executes a random set of 20 moves on the cube.
+
+    std::cout << "scramble: ";
+
+    // Get possible moves grouped by axis.
+    vector< vector<std::string> > axes(3, vector<std::string>());
+    for ( int m = 0; m < move_notations.size(); m++ ) {
+        axes[m / 6].push_back(move_notations[m]);
+    }
+
+    // Get possible moves grouped by side.
+    vector< vector<std::string> > sides(6, vector<std::string>());
+    for ( int m = 0; m < move_notations.size(); m++ ) {
+        sides[m / 3].push_back(move_notations[m]);
+    }
+
+    vector<std::string> scramble_moves;
+    for ( int i = 0; i < 20; i++ ) {
+        scramble_moves.push_back(choose_move(scramble_moves, axes, sides));
+    }
+
+    std::string scramble_string = boost::algorithm::join(scramble_moves, " ");
+    std::cout << scramble_string << std::endl;
+    execute(scramble_string);
 }

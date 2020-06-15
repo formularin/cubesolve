@@ -44,6 +44,11 @@ static std::map<char, int> move_faces = {
     { 'R', 4 },
     { 'D', 5 }
 };
+static vector<std::string> move_notations = {
+    "R", "R'", "R2", "L", "L'", "L2",
+    "U", "U'", "U2", "D", "D'", "D2",
+    "F", "F'", "F2", "B", "B'", "B2"
+};
 
 
 class Move {

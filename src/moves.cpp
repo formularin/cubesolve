@@ -68,4 +68,5 @@ void MoveString::print() {
         }
         std::cout << moves[i].move << " ";
     }
+    std::cout << std::endl;
 }
