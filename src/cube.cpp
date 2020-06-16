@@ -10,6 +10,7 @@
 #include <iostream>
 #include <iterator>
 #include <cmath>
+#include <ctime>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -284,8 +285,6 @@ void Cube::execute(std::string moves) {
 void Cube::scramble() {
     // Executes a random set of 20 moves on the cube.
 
-    std::cout << "scramble: ";
-
     // Get possible moves grouped by axis.
     vector< vector<std::string> > axes(3, vector<std::string>());
     for ( int m = 0; m < move_notations.size(); m++ ) {
@@ -298,12 +297,15 @@ void Cube::scramble() {
         sides[m / 3].push_back(move_notations[m]);
     }
 
+    std::srand(std::time(NULL));  // Seed random numbers.
     vector<std::string> scramble_moves;
     for ( int i = 0; i < 20; i++ ) {
         scramble_moves.push_back(choose_move(scramble_moves, axes, sides));
     }
 
     std::string scramble_string = boost::algorithm::join(scramble_moves, " ");
+
+    std::cout << "scramble: ";
     std::cout << scramble_string << std::endl;
     execute(scramble_string);
 }
