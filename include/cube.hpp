@@ -1,6 +1,6 @@
 /*=======================================
  cube.hpp:                      lol-cubes
- last modified:               Wed, Apr 08
+ last modified:           Tue, 06/16/2020
  
  The `Cube` class, which represents a
  Rubik's Cube. Everything is organized in
@@ -25,7 +25,8 @@ using std::vector;
 #define enum colors { green, orange, white, blue, red, yellow };
 
 // Coordinate pairs in `faces` for stickers of edge pieces.
-static vector< vector< vector<int> > > adjacent_edge_stickers = {
+// {face, row, col}
+static std::map<vector<int>, vector<int>> adjacent_edge_stickers = {
     { {0, 0, 1}, {2, 2, 1} },
     { {0, 1, 0}, {1, 1, 2} },
     { {0, 1, 2}, {4, 1, 0} },
@@ -37,7 +38,19 @@ static vector< vector< vector<int> > > adjacent_edge_stickers = {
     { {2, 1, 2}, {4, 0, 1} },
     { {3, 1, 0}, {4, 1, 2} },
     { {3, 2, 1}, {5, 2, 1} },
-    { {4, 2, 1}, {5, 1, 2} }
+    { {4, 2, 1}, {5, 1, 2} },
+    { {2, 2, 1}, {0, 0, 1} },
+    { {1, 1, 2}, {0, 1, 0} },
+    { {4, 1, 0}, {0, 1, 2} },
+    { {5, 0, 1}, {0, 2, 1} },
+    { {2, 1, 0}, {1, 0, 1} },
+    { {3, 1, 2}, {1, 1, 0} },
+    { {5, 1, 0}, {1, 2, 1} },
+    { {3, 0, 1}, {2, 0, 1} },
+    { {4, 0, 1}, {2, 1, 2} },
+    { {4, 1, 2}, {3, 1, 0} },
+    { {5, 2, 1}, {3, 2, 1} },
+    { {5, 1, 2}, {4, 2, 1} }
 };
 
 class Cube {

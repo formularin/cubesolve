@@ -1,6 +1,6 @@
 /*=======================================
  cube.cpp:                      lol-cubes
- last modified:               Wed, Apr 08
+ last modified:           Tue, 06/16/2020
  
  Implementations for the `Cube` class.
 ========================================*/

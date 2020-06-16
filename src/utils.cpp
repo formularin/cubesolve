@@ -1,6 +1,6 @@
 /*=======================================
  utils.hpp:                     lol-cubes
- last modified:               Wed, Apr 08
+ last modified:           Tue, 06/16/2020
  
  Useful function implementations.
 ========================================*/
@@ -22,6 +22,10 @@ bool get_int_in_vector(int i, vector<int> vec) {
 
 bool get_string_in_vector(std::string string, vector<std::string> vec) {
     return std::find(vec.begin(), vec.end(), string) != vec.end();
+}
+
+bool get_vector_in_vector(vector<int> v, vector< vector<int> > vec) {
+    return std::find(vec.begin(), vec.end(), v) != vec.end();
 }
 
 

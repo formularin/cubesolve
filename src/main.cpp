@@ -1,6 +1,6 @@
 /*=======================================
  main.cpp:                      lol-cubes
- last modified:               Wed, Apr 08
+ last modified:           Tue, 06/16/2020
  
  Rubik's cube solver written in c++.
 ========================================*/
