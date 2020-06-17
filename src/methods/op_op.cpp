@@ -11,7 +11,6 @@
 #include <map>
 #include <vector>
 #include <string>
-#include <set>
 
 #include "../../include/methods/op_op.hpp"
 #include "../../include/cube.hpp"
@@ -21,63 +20,51 @@
 using std::vector;
 
 
-// Assigns each edge and corner a letter unique to their respective sets
-// of edges and corners. Corners are lowercase, edges are uppercase.
-// Centers are labeled 'z' because they aren't touched.
-static vector< vector< vector<char> > > lettering_scheme = {
-    // Green
-    {{'i', 'I', 'j'},
-     {'L', 'z', 'J'},
-     {'l', 'K', 'k'}},
-    // Orange
-    {{'e', 'E', 'f'},
-     {'H', 'z', 'F'},
-     {'h', 'G', 'g'}},
-    // White
-    {{'a', 'A', 'b'},
-     {'D', 'z', 'B'},
-     {'d', 'C', 'c'}},
-    // Blue
-    {{'q', 'Q', 'r'},
-     {'T', 'z', 'R'},
-     {'t', 'S', 's'}},
-    // Red
-    {{'m', 'M', 'n'},
-     {'P', 'z', 'N'},
-     {'p', 'O', 'o'}},
-    // Yellow
-    {{'u', 'U', 'v'},
-     {'X', 'z', 'V'},
-     {'x', 'W', 'w'}}
-};
-// Algorithms to move a selected edge across from the buffer spot
-// without disturbing the corners next to it.
-static std::map<char, std::string> edge_algorithms = {
-    { 'A', "R2 U' R2" },
-    // 'B' is the buffer.
-    { 'C', "R2 U R2" },
-    { 'D', ""},
-    { 'E', "L U' F U" },
-    { 'F', "U' F U" },
-    { 'G', "L' U' F U" },
-    { 'H', "U B' U'" },
-    { 'I', "R F' L' R'" },
-    { 'J', "U2 R U2" },
-    { 'K', "R F L' R'" },
-    { 'L', "L'" },
-    // 'M' is the other sticker of the buffer..
-    { 'N', "U B U'" },
-    { 'O', "D' R F L' R'" },
-    { 'P', "U' F' U" },
-    { 'Q', "R' B L R" },
-    { 'R', "L" },
-    { 'S', "R' B' L R" },
-    { 'T', "U2 R' U2" },
-    { 'U', "D' L2" },
-    { 'V', "D2 L2" },
-    { 'W', "D L2" },
-    { 'X', "L2" }
-};
+char get_edge_sticker_from_coords(int f, int r, int c, Cube cube) {
+    // Returns the letter of the edge corresponding to the coords (face, row, column) of `cube`.
+
+    vector<int> sticker_coords = {f, r, c};
+    vector<int> adjacent_sticker_coords = adjacent_edge_stickers[sticker_coords];
+    int af = adjacent_sticker_coords[0];
+    int ar = adjacent_sticker_coords[1];
+    int ac = adjacent_sticker_coords[2];
+
+    int sticker_color = cube.faces[f][r][c];
+    int adjacent_sticker_color = cube.faces[af][ar][ac];
+
+    vector<int> edge_colors;
+    if ( sticker_color < adjacent_sticker_color ) {
+        edge_colors.push_back(sticker_color);
+        edge_colors.push_back(adjacent_sticker_color);
+
+        return edge_stickers_by_color[edge_colors][0];
+
+    } else {
+        edge_colors.push_back(adjacent_sticker_color);
+        edge_colors.push_back(sticker_color);
+
+        return edge_stickers_by_color[edge_colors][1];
+    }
+}
+
+
+vector<int> get_coords_from_sticker(char sticker) {
+    // Gets the coords of a sticker in (face, row, column) format.
+
+    vector<int> coords;
+    for ( int f = 0; f < 6; f++ ) {
+        for ( int r = 0; r < 3; r++ ) {
+            for ( int c = 0; c < 3; c++ ) {
+                if ( lettering_scheme[f][r][c] == sticker ) {
+                    coords.push_back(f);
+                    coords.push_back(r);
+                    coords.push_back(c);
+                    return coords;
+                }
+            }
+        }
+    }
+}
 
 
 MoveString solve_op_op(Cube cube) {
@@ -91,7 +78,7 @@ MoveString solve_op_op(Cube cube) {
     // Edges
     // =========================================
 
-    std::set<char> unsolved_edge_stickers = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X'};
+    vector<char> unsolved_edge_stickers = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X'};
     vector<char> edge_memo;
    
     // Check for edge pieces that are already solved.
@@ -123,12 +110,48 @@ MoveString solve_op_op(Cube cube) {
                      != cube.faces[adjacent_sticker_coords[0]][adjacent_sticker_coords[1]][adjacent_sticker_coords[2]]) continue;
                 
                 // If it passed all those tests, both stickers can be removed from the unsolved list.
-                unsolved_edge_stickers.erase(lettering_scheme[face][row][col]);
-                unsolved_edge_stickers.erase(
-                    lettering_scheme[adjacent_sticker_coords[0]][adjacent_sticker_coords[1]][adjacent_sticker_coords[2]]);
+                remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), lettering_scheme[face][row][col]);
+                remove(
+                    unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(),
+                    lettering_scheme[adjacent_sticker_coords[0]][adjacent_sticker_coords[1]][adjacent_sticker_coords[2]]
+                );
             }
         }
     }
+
+    // Get memo list. Buffer is the red-white edge.
+    while ( unsolved_edge_stickers.size() > 0 ) {
+        if ( edge_memo.size() == 0 ) {
+            // First piece.
+
+            char buffer_sticker = get_edge_sticker_from_coords(2, 1, 2, cube);
+            if ( buffer_sticker == 'B' || buffer_sticker == 'M' ) {
+                // Buffer is already permutated. Start with a T-perm to move it.
+                edge_memo.push_back('D');
+            } else {
+                edge_memo.push_back(buffer_sticker);
+                remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), buffer_sticker);
+            }
+
+        } else {
+            vector<int> next_sticker_coords = get_coords_from_sticker(edge_memo[edge_memo.size() - 1]);
+            int f = next_sticker_coords[0];
+            int r = next_sticker_coords[1];
+            int c = next_sticker_coords[2];
+
+            char next_sticker = cube.faces[f][r][c];
+            for ( int i = 0; next_sticker == 'B' || next_sticker == 'M'; i++ ) {
+                next_sticker = unsolved_edge_stickers[i];
+            }
+            edge_memo.push_back(next_sticker);
+            remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), next_sticker);
+        }
+    }
+
+    for ( char sticker : edge_memo ) {
+        std::cout << sticker << " ";
+    }
+    std::cout << std::endl;
 
     return MoveString({Move("R")});
 }
