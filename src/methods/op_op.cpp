@@ -74,6 +74,9 @@ MoveString solve_op_op(Cube cube) {
 
     vector<Move> solution_moves;
 
+    // Whether or not to do an R-permutation after solving edges.
+    bool parity;
+
     // Memorization
 
     // Edges
@@ -84,9 +87,9 @@ MoveString solve_op_op(Cube cube) {
    
     // Check for edge pieces that are already solved.
 
-    vector< vector<int> > checked_sticker_coords;
+    vector< vector<int> > checked_edge_sticker_coords;
 
-    // Iterate over all coordinate pairs of stickers
+    // Iterate over all coordinate trios of stickers
     for ( int face = 0; face < 6; face++ ) {
         for ( int row = 0; row < 3; row++ ) {
             for ( int col = 0; col < 3; col++ ) {
@@ -96,12 +99,12 @@ MoveString solve_op_op(Cube cube) {
 
                 // Check if sticker is not already checked.
                 vector<int> current_sticker_coords = {face, row, col};
-                if ( get_vector_in_vector(current_sticker_coords, checked_sticker_coords) ) continue;
+                if ( get_vector_in_vector(current_sticker_coords, checked_edge_sticker_coords) ) continue;
                 
                 // Mark both stickers of edge as checked.
                 vector<int> adjacent_sticker_coords = adjacent_edge_stickers[current_sticker_coords];
-                checked_sticker_coords.push_back(current_sticker_coords);
-                checked_sticker_coords.push_back(adjacent_sticker_coords);
+                checked_edge_sticker_coords.push_back(current_sticker_coords);
+                checked_edge_sticker_coords.push_back(adjacent_sticker_coords);
 
                 // Check if sticker has same color as center of face.
                 if ( cube.faces[face][1][1] != cube.faces[face][row][col] ) continue;
@@ -137,7 +140,7 @@ MoveString solve_op_op(Cube cube) {
         unsolved_edge_stickers.end()
     );
 
-    // Get memo list. Buffer is the red-white edge.
+    // Get edge memo list. Buffer is the red-white edge.
     while ( unsolved_edge_stickers.size() > 0 ) {
         // Whether or not the sticker that was just added to the memo was actually solved.
         char solved = true;
@@ -206,6 +209,81 @@ MoveString solve_op_op(Cube cube) {
         std::cout << sticker << " ";
     }
     std::cout << std::endl;
+
+    // Mark parity as true or false based off of whether an odd or even number
+    // of edges will be permutated.
+    if ( edge_memo.size() % 2 == 1 ) {
+        parity = true;
+    } else {
+        parity = false;
+    }
+
+    // Corners
+    // =========================================
+
+    vector<char> unsolved_corner_stickers = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x'};
+
+    // Check for corner pieces that are already solved.
+
+    vector< vector<int> > checked_corner_sticker_coords;
+
+    // Iterate over all coordinate trios of stickers.
+    for ( int face = 0; face < 6; face++ ) {
+        for ( int row = 0; row < 3; row++ ) {
+            for ( int col = 0; col < 3; col++ ) {
+                
+                // Check if sticker is a corner sticker.
+                if ( col == 2 || row == 1 ) continue;
+
+                // Check if sticker is not already checked.
+                vector<int> current_sticker_coords = {face, row, col};
+                if ( get_vector_in_vector(current_sticker_coords, checked_corner_sticker_coords) ) continue;
+
+                // Mark all three stickers of corner as checked.
+                vector< vector<int> > adjacent_stickers_coords = adjacent_corner_stickers[current_sticker_coords];
+                checked_corner_sticker_coords.push_back(current_sticker_coords);
+                for ( vector<int> sticker_coords : adjacent_stickers_coords ) {
+                    checked_corner_sticker_coords.push_back(sticker_coords);
+                }
+
+                // Check if sticker has same color as center of face.
+                if ( cube.faces[face][1][1] != cube.faces[face][row][col] ) continue;
+
+                // Check if adjacent stickers have same color as their faces.
+                bool both_solved = true;
+                for ( vector<int> sticker_coords : adjacent_stickers_coords ) {
+                    if ( cube.faces[sticker_coords[0]][sticker_coords[1]][sticker_coords[2]] != cube.faces[sticker_coords[0]][1][1] ) {
+                        both_solved = false;
+                    }
+                }
+                if ( !both_solved ) {
+                    continue;
+                }
+
+                // If it passed all those tests, all three stickers can be removed from the unsolved list.
+                unsolved_corner_stickers.erase(
+                    remove(unsolved_corner_stickers.begin(), unsolved_corner_stickers.end(), lettering_scheme[face][row][col]),
+                    unsolved_corner_stickers.end()
+                );
+                for ( vector<int> sticker_coords : adjacent_stickers_coords ) {
+                    unsolved_corner_stickers.erase(
+                        remove(
+                            unsolved_corner_stickers.begin(), unsolved_corner_stickers.end(),
+                            lettering_scheme[sticker_coords[0]][sticker_coords[1]][sticker_coords[2]]
+                        ),
+                        unsolved_corner_stickers.end()
+                    );
+                }
+            }
+        }
+    }
+    vector<char> corner_buffer_stickers = {'a', 'e', 'r'};
+    for ( char sticker : corner_buffer_stickers ) {
+        unsolved_corner_stickers.erase(
+            remove(unsolved_corner_stickers.begin(), unsolved_corner_stickers.end(), sticker),
+            unsolved_corner_stickers.end()
+        );
+    }
 
     return MoveString({Move("R")});
 }
