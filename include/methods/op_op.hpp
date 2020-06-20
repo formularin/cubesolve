@@ -1,6 +1,6 @@
 /*=======================================
  op_op.hpp:                     lol-cubes
- last modified:               Wed, Apr 08
+ last modified:           Sat, 06/20/2020
  
  Header file for Old Pochman edges and
  corners algorithm implementation.

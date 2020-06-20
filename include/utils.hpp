@@ -1,6 +1,6 @@
 /*=======================================
  utils.hpp:                     lol-cubes
- last modified:           Tue, 06/16/2020
+ last modified:           Sat, 06/20/2020
  
  Useful functions.
 ========================================*/

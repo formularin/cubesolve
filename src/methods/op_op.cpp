@@ -1,6 +1,6 @@
 /*=======================================
  op_op.cpp:                     lol-cubes
- last modified:           Tue, 06/16/2020
+ last modified:           Sat, 06/20/2020
  
  Implements the Old Pochman algorithm
  for both edges and corners.
