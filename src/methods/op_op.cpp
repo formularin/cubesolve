@@ -99,7 +99,7 @@ MoveString solve_op_op(Cube cube) {
 
                 // Check if sticker is not already checked.
                 vector<int> current_sticker_coords = {face, row, col};
-                if ( get_vector_in_vector(current_sticker_coords, checked_edge_sticker_coords) ) continue;
+                if ( utils::get_vector_in_vector(current_sticker_coords, checked_edge_sticker_coords) ) continue;
                 
                 // Mark both stickers of edge as checked.
                 vector<int> adjacent_sticker_coords = adjacent_edge_stickers[current_sticker_coords];
@@ -237,7 +237,7 @@ MoveString solve_op_op(Cube cube) {
 
                 // Check if sticker is not already checked.
                 vector<int> current_sticker_coords = {face, row, col};
-                if ( get_vector_in_vector(current_sticker_coords, checked_corner_sticker_coords) ) continue;
+                if ( utils::get_vector_in_vector(current_sticker_coords, checked_corner_sticker_coords) ) continue;
 
                 // Mark all three stickers of corner as checked.
                 vector< vector<int> > adjacent_stickers_coords = adjacent_corner_stickers[current_sticker_coords];

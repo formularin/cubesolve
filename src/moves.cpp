@@ -1,6 +1,6 @@
 /*=======================================
  moves.cpp:                     lol-cubes
- last modified:               Wed, Apr 08
+ last modified:           Sat, 06/20/2020
  
  Implemenations of methods for Move and
  MoveString classes.
@@ -63,7 +63,7 @@ void MoveString::print() {
     }
 
     for ( int i = 0; i < moves.size(); i++ ) {
-        if ( get_int_in_vector(i, comment_indices) ) {
+        if ( utils::get_int_in_vector(i, comment_indices) ) {
             std::cout << "  //" << comments[i] << std::endl;
         }
         std::cout << moves[i].move << " ";

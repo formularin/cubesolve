@@ -15,27 +15,27 @@
 using std::vector;
 
 
-bool get_char_in_vector(char c, vector<char> vec) {
+bool utils::get_char_in_vector(char c, vector<char> vec) {
     return std::find(vec.begin(), vec.end(), c) != vec.end();
 }
 
 
-bool get_int_in_vector(int i, vector<int> vec) {
+bool utils::get_int_in_vector(int i, vector<int> vec) {
     return std::find(vec.begin(), vec.end(), i) != vec.end();
 }
 
 
-bool get_string_in_vector(std::string string, vector<std::string> vec) {
+bool utils::get_string_in_vector(std::string string, vector<std::string> vec) {
     return std::find(vec.begin(), vec.end(), string) != vec.end();
 }
 
 
-bool get_vector_in_vector(vector<int> v, vector< vector<int> > vec) {
+bool utils::get_vector_in_vector(vector<int> v, vector< vector<int> > vec) {
     return std::find(vec.begin(), vec.end(), v) != vec.end();
 }
 
 
-void print_sticker_row(vector<int> stickers) {
+void utils::print_sticker_row(vector<int> stickers) {
     for ( int s : stickers ) {
         if ( s == 1 ) {
             std::cout << "\033[32m\u25A0\033[0m ";
@@ -54,7 +54,7 @@ void print_sticker_row(vector<int> stickers) {
 }
 
 
-void print_int_vector(vector<int> vec) {
+void utils::print_int_vector(vector<int> vec) {
     for ( int v : vec ) {
         std::cout << v << " ";
     }
@@ -62,7 +62,7 @@ void print_int_vector(vector<int> vec) {
 }
 
 
-vector< vector<int> > rotate_face(vector< vector<int> > face, std::string direction) {
+vector< vector<int> > utils::rotate_face(vector< vector<int> > face, std::string direction) {
     // Best explained by example:
     // 5 5 5  C   1 1 5
     // 1 1 6  ->  1 1 5

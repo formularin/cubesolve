@@ -1,6 +1,6 @@
 /*=======================================
  cube.cpp:                      lol-cubes
- last modified:           Tue, 06/16/2020
+ last modified:           Sat, 06/20/2020
  
  Implementations for the `Cube` class.
 ========================================*/
@@ -87,13 +87,13 @@ std::string Cube::choose_move(vector<std::string> current_moves,
     // Find which axis and which side the move belongs to.
     vector<std::string> move_axis;
     for ( vector<std::string> axis : axes ) {
-        if ( get_string_in_vector(move, axis) ) {
+        if ( utils::get_string_in_vector(move, axis) ) {
             move_axis = axis;
         }
     }
     vector<std::string> move_side;
     for ( vector<std::string> side : sides ) {
-        if ( get_string_in_vector(move, side) ) {
+        if ( utils::get_string_in_vector(move, side) ) {
             move_side = side;
         }
     }
@@ -101,7 +101,7 @@ std::string Cube::choose_move(vector<std::string> current_moves,
     // Previous moves of the same axis.
     int last_move_of_different_axis = -1;
     for ( int m = 0; m < current_moves.size(); m++ ) {
-        if ( !get_string_in_vector(current_moves[m], move_axis) ) {
+        if ( !utils::get_string_in_vector(current_moves[m], move_axis) ) {
             last_move_of_different_axis = m;
         }
     }
@@ -109,7 +109,7 @@ std::string Cube::choose_move(vector<std::string> current_moves,
     // Find if any moves of the same side as `move`
     // have been done since the last move of a different axis.
     for ( int m = current_moves.size() - 1; m > last_move_of_different_axis; m-- ) {
-        if ( get_string_in_vector(current_moves[m], move_side) ) {
+        if ( utils::get_string_in_vector(current_moves[m], move_side) ) {
             return choose_move(current_moves, axes, sides);
         }
     }
@@ -136,7 +136,7 @@ void Cube::turn(Move move) {
     // faces in faces member.
     vector< vector<int> > changing_stickers;
     for ( int f = 0; f < 6; f++ ) {
-        if ( !get_int_in_vector(f, untouched) ) {
+        if ( !utils::get_int_in_vector(f, untouched) ) {
             // Get list of faces whose row or col of pieces moved should be reversed.
             vector< vector<int> > face = faces[f];
             vector<int> reversed_faces;
@@ -154,7 +154,7 @@ void Cube::turn(Move move) {
                 reversed_faces = {4, 1};
             }
             bool face_is_reversed;
-            if ( get_int_in_vector(f, reversed_faces) ) {
+            if ( utils::get_int_in_vector(f, reversed_faces) ) {
                 face_is_reversed = true;
             } else {
                 face_is_reversed = false;
@@ -215,7 +215,7 @@ void Cube::turn(Move move) {
     // Apply changed stickers to faces.
     int face = 0;
     for ( int f = 0; f < 6; f++ ) {
-        if ( !get_int_in_vector(f, untouched) ) {
+        if ( !utils::get_int_in_vector(f, untouched) ) {
             if ( direction(f, move.axis) == 'r' ) {
                 // Moving stickers are in a row.
                 faces[f][std::abs(move.coords[f] - 2)] = changed_stickers[face];
@@ -231,7 +231,7 @@ void Cube::turn(Move move) {
 
     // Rotate the face that was turned.
     int rotated_face_index = move_faces[move.first_char];
-    faces[rotated_face_index] = rotate_face(faces[rotated_face_index], move.direction);
+    faces[rotated_face_index] = utils::rotate_face(faces[rotated_face_index], move.direction);
 }
 
 
@@ -240,14 +240,14 @@ void Cube::print() {
 
     for ( vector<int> row : faces[2] ) {
         std::cout << "       ";
-        print_sticker_row(row);
+        utils::print_sticker_row(row);
         std::cout << std::endl;
     }
     std::cout << std::endl;
     vector<int> middle_faces = {1, 0, 4, 3};
     for ( int i = 0; i < 3; i++ ) {
         for ( int f : middle_faces ) {
-            print_sticker_row(faces[f][i]);
+            utils::print_sticker_row(faces[f][i]);
             std::cout << " ";
         }
         std::cout << std::endl;
@@ -255,7 +255,7 @@ void Cube::print() {
     std::cout << std::endl;
     for ( vector<int> row : faces[5] ) {
         std::cout << "       ";
-        print_sticker_row(row);
+        utils::print_sticker_row(row);
         std::cout << std::endl;
     }
 }
