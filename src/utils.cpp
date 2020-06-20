@@ -15,6 +15,11 @@
 using std::vector;
 
 
+bool get_char_in_vector(char c, vector<char> vec) {
+    return std::find(vec.begin(), vec.end(), c) != vec.end();
+}
+
+
 bool get_int_in_vector(int i, vector<int> vec) {
     return std::find(vec.begin(), vec.end(), i) != vec.end();
 }
@@ -23,6 +28,7 @@ bool get_int_in_vector(int i, vector<int> vec) {
 bool get_string_in_vector(std::string string, vector<std::string> vec) {
     return std::find(vec.begin(), vec.end(), string) != vec.end();
 }
+
 
 bool get_vector_in_vector(vector<int> v, vector< vector<int> > vec) {
     return std::find(vec.begin(), vec.end(), v) != vec.end();
@@ -45,6 +51,14 @@ void print_sticker_row(vector<int> stickers) {
             std::cout << "\033[33m\u25A0\033[0m ";
         }
     }
+}
+
+
+void print_int_vector(vector<int> vec) {
+    for ( int v : vec ) {
+        std::cout << v << " ";
+    }
+    std::cout << std::endl;
 }
 
 
