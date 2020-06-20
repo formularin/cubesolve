@@ -114,16 +114,10 @@ MoveString solve_op_op(Cube cube) {
                      != cube.faces[adjacent_sticker_coords[0]][adjacent_sticker_coords[1]][adjacent_sticker_coords[2]]) continue;
                 
                 // If it passed all those tests, both stickers can be removed from the unsolved list.
-                unsolved_edge_stickers.erase(
-                    remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), lettering_scheme[face][row][col]),
-                    unsolved_edge_stickers.end()
-                );
-                unsolved_edge_stickers.erase(
-                    remove(
-                        unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(),
+                unsolved_edge_stickers = utils::remove(unsolved_edge_stickers, lettering_scheme[face][row][col]);
+                unsolved_edge_stickers = utils::remove(
+                        unsolved_edge_stickers,
                         lettering_scheme[adjacent_sticker_coords[0]][adjacent_sticker_coords[1]][adjacent_sticker_coords[2]]
-                    ),
-                    unsolved_edge_stickers.end()
                 );
             }
         }
@@ -131,14 +125,8 @@ MoveString solve_op_op(Cube cube) {
     // Mark 'B' and 'M' (buffer stickers) from unsolved list because they will
     // not manually solved, but will instead be solved by the fact that it is
     // impossible for a rubik's cube to have an odd number of oriented edges.
-    unsolved_edge_stickers.erase(
-        remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), 'B'),
-        unsolved_edge_stickers.end()
-    );
-    unsolved_edge_stickers.erase(
-        remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), 'M'),
-        unsolved_edge_stickers.end()
-    );
+    unsolved_edge_stickers = utils::remove(unsolved_edge_stickers, 'B');
+    unsolved_edge_stickers = utils::remove(unsolved_edge_stickers, 'M');
 
     // Get edge memo list. Buffer is the red-white edge.
     while ( unsolved_edge_stickers.size() > 0 ) {
@@ -192,15 +180,9 @@ MoveString solve_op_op(Cube cube) {
             char next_sticker = edge_memo[edge_memo.size() - 1];
 
             // Remove both stickers of the edge.
-            unsolved_edge_stickers.erase(
-                remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), next_sticker),
-                unsolved_edge_stickers.end()
-            );
+            unsolved_edge_stickers = utils::remove(unsolved_edge_stickers, next_sticker);
             char adjacent_sticker = edge_sticker_pairs[next_sticker];
-            unsolved_edge_stickers.erase(
-                remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), adjacent_sticker),
-                unsolved_edge_stickers.end()
-            );
+            unsolved_edge_stickers = utils::remove(unsolved_edge_stickers, adjacent_sticker);
         }
     }
 
@@ -261,17 +243,12 @@ MoveString solve_op_op(Cube cube) {
                 }
 
                 // If it passed all those tests, all three stickers can be removed from the unsolved list.
-                unsolved_corner_stickers.erase(
-                    remove(unsolved_corner_stickers.begin(), unsolved_corner_stickers.end(), lettering_scheme[face][row][col]),
-                    unsolved_corner_stickers.end()
-                );
+                unsolved_corner_stickers = utils::remove(
+                    unsolved_corner_stickers, lettering_scheme[face][row][col]);
                 for ( vector<int> sticker_coords : adjacent_stickers_coords ) {
-                    unsolved_corner_stickers.erase(
-                        remove(
-                            unsolved_corner_stickers.begin(), unsolved_corner_stickers.end(),
-                            lettering_scheme[sticker_coords[0]][sticker_coords[1]][sticker_coords[2]]
-                        ),
-                        unsolved_corner_stickers.end()
+                    unsolved_corner_stickers = utils::remove(
+                        unsolved_corner_stickers,
+                        lettering_scheme[sticker_coords[0]][sticker_coords[1]][sticker_coords[2]]
                     );
                 }
             }
@@ -279,10 +256,7 @@ MoveString solve_op_op(Cube cube) {
     }
     vector<char> corner_buffer_stickers = {'a', 'e', 'r'};
     for ( char sticker : corner_buffer_stickers ) {
-        unsolved_corner_stickers.erase(
-            remove(unsolved_corner_stickers.begin(), unsolved_corner_stickers.end(), sticker),
-            unsolved_corner_stickers.end()
-        );
+        unsolved_corner_stickers = utils::remove(unsolved_corner_stickers, sticker);
     }
 
     return MoveString({Move("R")});

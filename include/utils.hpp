@@ -18,4 +18,5 @@ namespace utils {
     void print_sticker_row(std::vector<int> stickers);
     void print_int_vector(std::vector<int> vec);
     std::vector< std::vector<int> > rotate_face(std::vector< std::vector<int> > face, std::string direction);
+    std::vector<char> remove(std::vector<char> vec, char c);
 }

@@ -102,3 +102,10 @@ vector< vector<int> > utils::rotate_face(vector< vector<int> > face, std::string
 
     return rotated_face;
 }
+
+
+vector<char> utils::remove(vector<char> vec, char c) {
+    // Returns a vector with a single element removed by value.
+    vec.erase(std::remove(vec.begin(), vec.end(), c), vec.end());
+    return vec;
+}
