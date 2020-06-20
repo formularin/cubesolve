@@ -7,6 +7,7 @@
 ========================================*/
 
 
+#include <algorithm>
 #include <iostream>
 #include <map>
 #include <vector>
@@ -110,44 +111,97 @@ MoveString solve_op_op(Cube cube) {
                      != cube.faces[adjacent_sticker_coords[0]][adjacent_sticker_coords[1]][adjacent_sticker_coords[2]]) continue;
                 
                 // If it passed all those tests, both stickers can be removed from the unsolved list.
-                remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), lettering_scheme[face][row][col]);
-                remove(
-                    unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(),
-                    lettering_scheme[adjacent_sticker_coords[0]][adjacent_sticker_coords[1]][adjacent_sticker_coords[2]]
+                unsolved_edge_stickers.erase(
+                    remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), lettering_scheme[face][row][col]),
+                    unsolved_edge_stickers.end()
+                );
+                unsolved_edge_stickers.erase(
+                    remove(
+                        unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(),
+                        lettering_scheme[adjacent_sticker_coords[0]][adjacent_sticker_coords[1]][adjacent_sticker_coords[2]]
+                    ),
+                    unsolved_edge_stickers.end()
                 );
             }
         }
     }
+    // Mark 'B' and 'M' (buffer stickers) from unsolved list because they will
+    // not manually solved, but will instead be solved by the fact that it is
+    // impossible for a rubik's cube to have an odd number of oriented edges.
+    unsolved_edge_stickers.erase(
+        remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), 'B'),
+        unsolved_edge_stickers.end()
+    );
+    unsolved_edge_stickers.erase(
+        remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), 'M'),
+        unsolved_edge_stickers.end()
+    );
 
     // Get memo list. Buffer is the red-white edge.
     while ( unsolved_edge_stickers.size() > 0 ) {
+        // Whether or not the sticker that was just added to the memo was actually solved.
+        char solved = true;
         if ( edge_memo.size() == 0 ) {
             // First piece.
 
             char buffer_sticker = get_edge_sticker_from_coords(2, 1, 2, cube);
             if ( buffer_sticker == 'B' || buffer_sticker == 'M' ) {
-                // Buffer is already permutated. Start with a T-perm to move it.
-                edge_memo.push_back('D');
+                // Buffer is already permutated. Replace is with a random unsolved piece.
+                for ( int i = 1; buffer_sticker == 'B' || buffer_sticker == 'M'; i++ ) {
+                    buffer_sticker = unsolved_edge_stickers[i];
+                }
+                solved = false;
             } else {
                 edge_memo.push_back(buffer_sticker);
-                remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), buffer_sticker);
             }
 
         } else {
-            vector<int> next_sticker_coords = get_coords_from_sticker(edge_memo[edge_memo.size() - 1]);
-            int f = next_sticker_coords[0];
-            int r = next_sticker_coords[1];
-            int c = next_sticker_coords[2];
+            char last_sticker = edge_memo[edge_memo.size() - 1];
+            char last_sticker_adjacent = edge_sticker_pairs[last_sticker];
+            char next_sticker = unsolved_edge_stickers[0];  // Starts by assuming it is the first sticker in a new cycle.
 
-            char next_sticker = cube.faces[f][r][c];
-            for ( int i = 0; next_sticker == 'B' || next_sticker == 'M'; i++ ) {
-                next_sticker = unsolved_edge_stickers[i];
+            int last_sticker_occurrences = 0;
+            for ( int i = 0; i < edge_memo.size(); i++ ) {
+                if ( edge_memo[i] == last_sticker || edge_memo[i] == last_sticker_adjacent ) {
+                    last_sticker_occurrences++;
+                }
             }
+
+            if ( last_sticker_occurrences == 2 ) {
+                solved = false;
+            } else {
+                // Finding the next sticker in the cycle.
+
+                vector<int> next_sticker_coords = get_coords_from_sticker(last_sticker);
+                int f = next_sticker_coords[0];
+                int r = next_sticker_coords[1];
+                int c = next_sticker_coords[2];
+                next_sticker = get_edge_sticker_from_coords(f, r, c, cube);
+                for ( int i = 0; next_sticker == 'B' || next_sticker == 'M'; i++ ) {
+                    next_sticker = unsolved_edge_stickers[i];
+                    solved = false;
+                }
+            }
+
             edge_memo.push_back(next_sticker);
-            remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), next_sticker);
+        }
+        if ( solved ) {
+            char next_sticker = edge_memo[edge_memo.size() - 1];
+
+            // Remove both stickers of the edge.
+            unsolved_edge_stickers.erase(
+                remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), next_sticker),
+                unsolved_edge_stickers.end()
+            );
+            char adjacent_sticker = edge_sticker_pairs[next_sticker];
+            unsolved_edge_stickers.erase(
+                remove(unsolved_edge_stickers.begin(), unsolved_edge_stickers.end(), adjacent_sticker),
+                unsolved_edge_stickers.end()
+            );
         }
     }
 
+    std::cout << "edge memo: ";
     for ( char sticker : edge_memo ) {
         std::cout << sticker << " ";
     }
