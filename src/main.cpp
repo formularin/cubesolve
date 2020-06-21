@@ -22,20 +22,35 @@ using std::vector;
 int main(int argc, char** argv) {
 
     Cube cube = Cube();
+    int x = 0;
     try {
-        if ( std::strcmp(argv[1], "auto") == 0 ) {
+
+        if ( std::strcmp(argv[1], "-d") == 0 ) {
+            x++;
+        }
+
+        // Scramble cube.
+        if ( std::strcmp(argv[1 + x], "auto") == 0 ) {
             cube.scramble();
         } else {
-            cube.execute(argv[1]);
-            std::cout << argv[1] << std::endl;
+            cube.execute(argv[1 + x]);
         }
-        cube.print();
-        if ( std::strcmp(argv[2], "opop") == 0 ) {
+
+        // Draw scramble if necessary.
+        if ( x == 1 ) {
+            cube.print();
+        }
+
+        // Solve cube and print solution.
+        if ( std::strcmp(argv[2 + x], "opop") == 0 ) {
             std::string solution = solve_op_op(cube);
-            std::cout << "solution: " << solution << std::endl;
+            std::cout << solution << std::endl;
+        } else if ( std::strcmp(argv[2 + x], "lbl") == 0 | std::strcmp(argv[2 + x], "is") == 0 ) {
+            std::cout << "Method not yet implemented." << std::endl;
         }
+
     } catch (int x) {
-        std::cout << "Usage: cubesolve <scramble> <method>" << std::endl;
+        std::cout << "Usage: cubesolve [-d] <scramble> <method>" << std::endl;
     }
 
     return 0;
