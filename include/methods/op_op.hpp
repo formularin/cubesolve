@@ -1,11 +1,13 @@
 /*=======================================
  op_op.hpp:                     lol-cubes
- last modified:           Sat, 06/20/2020
+ last modified:           Sun, 06/21/2020
  
  Header file for Old Pochman edges and
  corners algorithm implementation.
 ========================================*/
 
+
+#include <string>
 
 #include "../moves.hpp"
 #include "../cube.hpp"
@@ -114,4 +116,4 @@ static std::map<char, char> edge_sticker_pairs = {
 
 char get_edge_sticker_from_coords(int f, int r, int c, Cube cube);
 vector<int> get_coords_from_sticker(char sticker);
-MoveString solve_op_op(Cube cube);
+std::string solve_op_op(Cube cube);

@@ -1,6 +1,6 @@
 /*=======================================
  main.cpp:                      lol-cubes
- last modified:           Tue, 06/16/2020
+ last modified:           Sun, 06/21/2020
  
  Rubik's cube solver written in c++.
 ========================================*/
@@ -31,9 +31,8 @@ int main(int argc, char** argv) {
         }
         cube.print();
         if ( std::strcmp(argv[2], "opop") == 0 ) {
-            MoveString solution = solve_op_op(cube);
-            std::cout << "solution: ";
-            solution.print();
+            std::string solution = solve_op_op(cube);
+            std::cout << "solution: " << solution << std::endl;
         }
     } catch (int x) {
         std::cout << "Usage: cubesolve <scramble> <method>" << std::endl;

@@ -1,9 +1,9 @@
 /*=======================================
  moves.cpp:                     lol-cubes
- last modified:           Sat, 06/20/2020
+ last modified:           Sun, 06/21/2020
  
- Implemenations of methods for Move and
- MoveString classes.
+ Implemenations of methods for the
+ Move class.
 ========================================*/
 
 
@@ -12,11 +12,6 @@
 
 #include "../include/moves.hpp"
 #include "../include/utils.hpp"
-
-
-// ***********************
-// Move
-// ***********************
 
 
 Move::Move(std::string move_string) {
@@ -38,35 +33,4 @@ Move::Move(std::string move_string) {
         direction = "CC";
     }
 
-}
-
-
-// ***********************
-// MoveString
-// ***********************
-
-
-MoveString::MoveString(vector<Move> move_string) {
-    // MoveString class constructor.
-
-    moves = move_string;
-}
-
-
-void MoveString::print() {
-    // Prints a string that can be interpreted by a human.
-
-    vector<int> comment_indices;
-    for ( std::map<int, std::string>::iterator it = comments.begin();
-          it != comments.end(); ++it ) {
-        comment_indices.push_back(it -> first);
-    }
-
-    for ( int i = 0; i < moves.size(); i++ ) {
-        if ( utils::get_int_in_vector(i, comment_indices) ) {
-            std::cout << "  //" << comments[i] << std::endl;
-        }
-        std::cout << moves[i].move << " ";
-    }
-    std::cout << std::endl;
 }

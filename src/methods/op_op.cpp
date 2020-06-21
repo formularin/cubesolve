@@ -1,6 +1,6 @@
 /*=======================================
  op_op.cpp:                     lol-cubes
- last modified:           Sat, 06/20/2020
+ last modified:           Sun, 06/21/2020
  
  Implements the Old Pochman algorithm
  for both edges and corners.
@@ -68,8 +68,8 @@ vector<int> get_coords_from_sticker(char sticker) {
 }
 
 
-MoveString solve_op_op(Cube cube) {
-    // Returns MoveString containing solution and explanatory comments.
+std::string solve_op_op(Cube cube) {
+    // Returns string containing solution.
     // Cube enters solved state.
 
     vector<Move> solution_moves;
@@ -259,5 +259,5 @@ MoveString solve_op_op(Cube cube) {
         unsolved_corner_stickers = utils::remove(unsolved_corner_stickers, sticker);
     }
 
-    return MoveString({Move("R")});
+    return "R";
 }
