@@ -1,6 +1,6 @@
 /*=======================================
  cube.cpp:                      lol-cubes
- last modified:           Sat, 06/20/2020
+ last modified:           Sun, 06/21/2020
  
  Implementations for the `Cube` class.
 ========================================*/
@@ -282,8 +282,8 @@ void Cube::execute(std::string moves) {
 }
 
 
-void Cube::scramble() {
-    // Executes a random set of 20 moves on the cube.
+std::string Cube::scramble() {
+    // Executes a random set of 20 moves on the cube. Also returns scramble string.
 
     // Get possible moves grouped by axis.
     vector< vector<std::string> > axes(3, vector<std::string>());
@@ -304,8 +304,7 @@ void Cube::scramble() {
     }
 
     std::string scramble_string = boost::algorithm::join(scramble_moves, " ");
-
-    std::cout << "scramble: ";
-    std::cout << scramble_string << std::endl;
+    
     execute(scramble_string);
+    return scramble_string;
 }

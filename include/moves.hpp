@@ -17,6 +17,9 @@ using std::vector;
 #define MOVES_H
 
 
+// Constants
+
+
 // Index of row or col of 3x3 face vector that contains stickers that
 // would change as a result of each move.
 static std::map<char, vector<int> > move_coords = {
@@ -51,6 +54,9 @@ static vector<std::string> move_notations = {
 };
 
 
+// Classes
+
+
 class Move {
     // A quarter-turn.
 
@@ -76,5 +82,11 @@ class Move {
     std::string move;  // String representation.
     Move(std::string move_string);
 };
+
+
+// Functions
+
+
+std::string get_inverse_moves(std::string moves);
 
 #endif

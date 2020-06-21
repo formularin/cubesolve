@@ -31,6 +31,6 @@ make install
 - `method`: One of the following methods.
     - `opop`* - Old Pochman Edges and Old Pochman Corners 3BLD method.
     - `lbl`* - Layer-by-layer beginner's method.
-    - `is`* - Inverse scramble.
+    - `is` - Inverse scramble.
 
 *Not yet implemented

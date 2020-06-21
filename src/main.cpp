@@ -30,24 +30,33 @@ int main(int argc, char** argv) {
         }
 
         // Scramble cube.
+        std::string scramble;
         if ( std::strcmp(argv[1 + x], "auto") == 0 ) {
-            cube.scramble();
+            scramble = cube.scramble();
         } else {
             cube.execute(argv[1 + x]);
+            scramble = argv[1 + x];
         }
 
         // Draw scramble if necessary.
         if ( x == 1 ) {
+            std::cout << ("scramble: " + scramble) << std::endl;
             cube.print();
         }
 
         // Solve cube and print solution.
+        std::string solution;
+
         if ( std::strcmp(argv[2 + x], "opop") == 0 ) {
-            std::string solution = solve_op_op(cube);
-            std::cout << solution << std::endl;
-        } else if ( std::strcmp(argv[2 + x], "lbl") == 0 | std::strcmp(argv[2 + x], "is") == 0 ) {
-            std::cout << "Method not yet implemented." << std::endl;
+            solution = solve_op_op(cube);
+
+        } else if ( std::strcmp(argv[2 + x], "lbl") == 0 ) {
+            solution = "Method not yet implemented.";
+
+        } else if ( std::strcmp(argv[2 + x], "is") == 0 ) {
+            solution = get_inverse_moves(scramble);   
         }
+        std::cout << solution << std::endl;
 
     } catch (int x) {
         std::cout << "Usage: cubesolve [-d] <scramble> <method>" << std::endl;

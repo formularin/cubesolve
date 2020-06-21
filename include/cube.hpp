@@ -91,7 +91,7 @@ class Cube {
     public:
     Cube();
     void execute(std::string moves);
-    void scramble();  // Execute random moves.
+    std::string scramble();  // Execute random moves.
     void print();
     void turn(Move move);
     // Each face is a 3x3 vector of ints.
