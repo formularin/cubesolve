@@ -99,8 +99,6 @@ std::string solve_op_op(Cube cube) {
     // Returns string containing solution.
     // Cube enters solved state.
 
-    vector<Move> solution_moves;
-
     // Whether or not to do an R-permutation after solving edges.
     bool parity;
 
@@ -210,12 +208,6 @@ std::string solve_op_op(Cube cube) {
             unsolved_edge_stickers = utils::remove(unsolved_edge_stickers, adjacent_sticker);
         }
     }
-
-    std::cout << "edge memo: ";
-    for ( char sticker : edge_memo ) {
-        std::cout << sticker << " ";
-    }
-    std::cout << std::endl;
 
     // Mark parity as true or false based off of whether an odd or even number
     // of edges will be permutated.
@@ -356,11 +348,24 @@ std::string solve_op_op(Cube cube) {
         }
     }
 
-    std::cout << "corner memo: ";
-    for ( char sticker : corner_memo ) {
-        std::cout << sticker << " ";
-    }
-    std::cout << std::endl;
+    // Execution
 
-    return "R";
+    std::string solution;
+
+    // Edges
+    // =========================================
+
+    for ( char edge : edge_memo ) {
+        solution += (edge_algorithms[edge] + " ");
+        solution += (edge_swap_algorithm + " ");
+        solution += (get_inverse_moves(edge_algorithms[edge]) + " ");
+    }
+
+    // Parity
+    // =========================================
+
+    // Corners
+    // =========================================
+
+    return solution;
 }

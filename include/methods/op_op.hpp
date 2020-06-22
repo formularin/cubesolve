@@ -134,6 +134,8 @@ static vector< vector<char> > corner_sticker_trios = {
     {'t', 'o', 'w'}
 };
 
+static std::string edge_swap_algorithm = "R U R' U' R' F R2 U' R' U' R U R' F'";
+
 
 char get_edge_sticker_from_coords(int f, int r, int c, Cube cube);
 char get_corner_sticker_from_coords(int f, int r, int c, Cube cube);
