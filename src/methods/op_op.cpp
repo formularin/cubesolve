@@ -331,7 +331,7 @@ std::string solve_op_op(Cube cube) {
                 int c = next_sticker_coords[2];
                 next_sticker = get_corner_sticker_from_coords(f, r, c, cube);
                 for ( int i = 0; utils::get_char_in_vector(next_sticker, corner_buffer_stickers); i++ ) {
-                    next_sticker = unsolved_edge_stickers[i];
+                    next_sticker = unsolved_corner_stickers[i];
                     solved = false;
                 }
             }
