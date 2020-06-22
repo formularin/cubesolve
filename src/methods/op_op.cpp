@@ -1,6 +1,6 @@
 /*=======================================
  op_op.cpp:                     lol-cubes
- last modified:           Sun, 06/21/2020
+ last modified:           Mon, 06/22/2020
  
  Implements the Old Pochman algorithm
  for both edges and corners.
@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <iterator>
 #include <map>
 #include <vector>
 #include <string>
@@ -46,6 +47,32 @@ char get_edge_sticker_from_coords(int f, int r, int c, Cube cube) {
 
         return edge_stickers_by_color[edge_colors][1];
     }
+}
+
+
+char get_corner_sticker_from_coords(int f, int r, int c, Cube cube) {
+    // Returns the letter of the corner corresponding to the coords (face, row, column) of `cube`.
+
+    vector<int> sticker_coords = {f, r, c};
+    vector< vector<int> > adjacent_stickers_coords = adjacent_corner_stickers[sticker_coords];
+
+    vector<int> sticker_colors;
+    sticker_colors.push_back(cube.faces[f][r][c]);
+    for ( vector<int> sticker_coords : adjacent_stickers_coords ) {
+        int af = sticker_coords[0];
+        int ar = sticker_coords[1];
+        int ac = sticker_coords[2];
+        sticker_colors.push_back(cube.faces[af][ar][ac]);
+    }
+
+    std::sort(sticker_colors.begin(), sticker_colors.end());
+    vector<char> sticker_chars = corner_stickers_by_color[sticker_colors];
+    
+    // Get index of original sticker in sorted list.
+    vector<int>::iterator it = std::find(sticker_colors.begin(), sticker_colors.end(), cube.faces[f][r][c]);
+    int index = std::distance(sticker_colors.begin(), it);
+
+    return sticker_chars[index];
 }
 
 
@@ -131,37 +158,35 @@ std::string solve_op_op(Cube cube) {
     // Get edge memo list. Buffer is the red-white edge.
     while ( unsolved_edge_stickers.size() > 0 ) {
         // Whether or not the sticker that was just added to the memo was actually solved.
-        char solved = true;
+        bool solved = true;
         if ( edge_memo.size() == 0 ) {
             // First piece.
 
             char buffer_sticker = get_edge_sticker_from_coords(2, 1, 2, cube);
             if ( buffer_sticker == 'B' || buffer_sticker == 'M' ) {
-                // Buffer is already permutated. Replace is with a random unsolved piece.
-                for ( int i = 1; buffer_sticker == 'B' || buffer_sticker == 'M'; i++ ) {
+                // Buffer is already permutated. Replace it with a random unsolved piece.
+                for ( int i = 0; buffer_sticker == 'B' || buffer_sticker == 'M'; i++ ) {
                     buffer_sticker = unsolved_edge_stickers[i];
                 }
                 solved = false;
-            } else {
-                edge_memo.push_back(buffer_sticker);
             }
-
+            edge_memo.push_back(buffer_sticker);
         } else {
             char last_sticker = edge_memo[edge_memo.size() - 1];
             char last_sticker_adjacent = edge_sticker_pairs[last_sticker];
             char next_sticker = unsolved_edge_stickers[0];  // Starts by assuming it is the first sticker in a new cycle.
 
-            int last_sticker_occurrences = 0;
+            int last_edge_occurrences = 0;
             for ( int i = 0; i < edge_memo.size(); i++ ) {
                 if ( edge_memo[i] == last_sticker || edge_memo[i] == last_sticker_adjacent ) {
-                    last_sticker_occurrences++;
+                    last_edge_occurrences++;
                 }
             }
 
-            if ( last_sticker_occurrences == 2 ) {
+            if ( last_edge_occurrences == 2 ) {
                 solved = false;
             } else {
-                // Finding the next sticker in the cycle.
+                // Find the next sticker in the cycle.
 
                 vector<int> next_sticker_coords = get_coords_from_sticker(last_sticker);
                 int f = next_sticker_coords[0];
@@ -204,6 +229,7 @@ std::string solve_op_op(Cube cube) {
     // =========================================
 
     vector<char> unsolved_corner_stickers = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x'};
+    vector<char> corner_memo;
 
     // Check for corner pieces that are already solved.
 
@@ -254,10 +280,87 @@ std::string solve_op_op(Cube cube) {
             }
         }
     }
+    // Mark buffer stickers as solved.
     vector<char> corner_buffer_stickers = {'a', 'e', 'r'};
     for ( char sticker : corner_buffer_stickers ) {
         unsolved_corner_stickers = utils::remove(unsolved_corner_stickers, sticker);
     }
+
+    // Get corner memo list.
+    while ( unsolved_corner_stickers.size() > 0 ) {
+        // Whether or not the sticker that was just added to the memo was actually solved.
+        bool solved = true;
+        if ( corner_memo.size() == 0 ) {
+            // First piece.
+
+            char buffer_sticker = get_corner_sticker_from_coords(1, 0, 0, cube);
+            if ( utils::get_char_in_vector(buffer_sticker, corner_buffer_stickers) ) {
+                // Buffer is already permutated. Replace it with a random unsolved piece.
+                for ( int i = 0; utils::get_char_in_vector(buffer_sticker, corner_buffer_stickers); i++ ) {
+                    buffer_sticker = unsolved_corner_stickers[i];
+                }
+                solved = false;
+            }
+            corner_memo.push_back(buffer_sticker);
+        } else {
+            char last_sticker = corner_memo[corner_memo.size() - 1];
+            char next_sticker = unsolved_corner_stickers[0];  // Starts by assuming it is the first sticker in a new cycle.
+
+            vector<char> last_corner_stickers;
+            for ( vector<char> trio : corner_sticker_trios ) {
+                if ( utils::get_char_in_vector(last_sticker, trio) ) {
+                    last_corner_stickers = trio;
+                }
+            }
+
+            int last_corner_occurrences = 0;
+            for ( int i = 0; i < corner_memo.size(); i++ ) {
+                if ( utils::get_char_in_vector(corner_memo[i], last_corner_stickers) ) {
+                    last_corner_occurrences++;
+                }
+            }
+
+            if ( last_corner_occurrences == 2 ) {
+                solved = false;
+            } else {
+                // Find the next sticker in the cycle.
+
+                vector<int> next_sticker_coords = get_coords_from_sticker(last_sticker);
+                int f = next_sticker_coords[0];
+                int r = next_sticker_coords[1];
+                int c = next_sticker_coords[2];
+                next_sticker = get_corner_sticker_from_coords(f, r, c, cube);
+                for ( int i = 0; utils::get_char_in_vector(next_sticker, corner_buffer_stickers); i++ ) {
+                    next_sticker = unsolved_edge_stickers[i];
+                    solved = false;
+                }
+            }
+
+            corner_memo.push_back(next_sticker);
+        }
+        if ( solved ) {
+            char next_sticker = corner_memo[corner_memo.size() - 1];
+
+            // Get all three stickers of the corner.
+            vector<char> next_corner_stickers;
+            for ( vector<char> trio : corner_sticker_trios ) {
+                if ( utils::get_char_in_vector(next_sticker, trio) ) {
+                    next_corner_stickers = trio;
+                }
+            }
+
+            // Remove all three stickers of the corner.
+            for ( char sticker : next_corner_stickers ) {
+                unsolved_corner_stickers = utils::remove(unsolved_corner_stickers, sticker);
+            }
+        }
+    }
+
+    std::cout << "corner memo: ";
+    for ( char sticker : corner_memo ) {
+        std::cout << sticker << " ";
+    }
+    std::cout << std::endl;
 
     return "R";
 }

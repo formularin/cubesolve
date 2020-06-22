@@ -1,6 +1,6 @@
 /*=======================================
  op_op.hpp:                     lol-cubes
- last modified:           Sun, 06/21/2020
+ last modified:           Mon, 06/22/2020
  
  Header file for Old Pochman edges and
  corners algorithm implementation.
@@ -71,7 +71,7 @@ static std::map<char, std::string> edge_algorithms = {
     { 'X', "L2" }
 };
 // Letters of pieces corresponding to colors.
-static std::map<vector<int>, vector<int>> edge_stickers_by_color = {
+static std::map< vector<int>, vector<char> > edge_stickers_by_color = {
 //   Colors     Edges
     {{1, 2}, {'L', 'F'}},
     {{1, 3}, {'I', 'C'}},
@@ -85,6 +85,17 @@ static std::map<vector<int>, vector<int>> edge_stickers_by_color = {
     {{4, 5}, {'T', 'N'}},
     {{4, 6}, {'S', 'W'}},
     {{5, 6}, {'O', 'V'}}
+};
+static std::map< vector<int>, vector<char> > corner_stickers_by_color = {
+//    Colors         Corners
+    {{1, 2, 3}, {'i', 'f', 'd'}},
+    {{1, 2, 6}, {'l', 'g', 'u'}},
+    {{1, 3, 5}, {'j', 'c', 'm'}},
+    {{1, 5, 6}, {'k', 'p', 'v'}},
+    {{2, 3, 4}, {'e', 'a', 'r'}},
+    {{2, 4, 6}, {'h', 's', 'x'}},
+    {{3, 4, 5}, {'b', 'q', 'n'}},
+    {{4, 5, 6}, {'t', 'o', 'w'}}
 };
 static std::map<char, char> edge_sticker_pairs = {
     {'L', 'F'},
@@ -112,8 +123,19 @@ static std::map<char, char> edge_sticker_pairs = {
     {'W', 'S'},
     {'V', 'O'}
 };
+static vector< vector<char> > corner_sticker_trios = {
+    {'i', 'f', 'd'},
+    {'l', 'g', 'u'},
+    {'j', 'c', 'm'},
+    {'k', 'p', 'v'},
+    {'e', 'a', 'r'},
+    {'h', 's', 'x'},
+    {'b', 'q', 'n'},
+    {'t', 'o', 'w'}
+};
 
 
 char get_edge_sticker_from_coords(int f, int r, int c, Cube cube);
+char get_corner_sticker_from_coords(int f, int r, int c, Cube cube);
 vector<int> get_coords_from_sticker(char sticker);
 std::string solve_op_op(Cube cube);
