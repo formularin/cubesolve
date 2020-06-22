@@ -355,15 +355,22 @@ std::string solve_op_op(Cube cube) {
     // Edges
     // =========================================
 
-    for ( char edge : edge_memo ) {
-        std::string edge_algorithm = edge_algorithms[edge];
-        if ( edge != 'D' ) {
-            edge_algorithm += " ";
+    for ( char sticker : edge_memo ) {
+        std::string edge_algorithm = edge_algorithms[sticker];
+
+        if ( sticker != 'D' ) {
+            solution += (edge_algorithm + " ");
+        } else {
+            solution += edge_algorithm;
         }
 
-        solution += (edge_algorithm);
         solution += (edge_swap_algorithm + " ");
-        solution += (get_inverse_moves(edge_algorithms[edge]));
+
+        if ( sticker != 'D' ) {
+            solution += (get_inverse_moves(edge_algorithm) + " ");
+        } else {
+            solution += get_inverse_moves(edge_algorithm);
+        }
     }
 
     // Parity
@@ -376,5 +383,30 @@ std::string solve_op_op(Cube cube) {
     // Corners
     // =========================================
 
-    return solution;
+    for ( char sticker : corner_memo ) {
+        std::string corner_algorithm = corner_algorithms[sticker];
+
+        if ( sticker != 'v' ) {
+            solution += (corner_algorithm + " ");
+        } else {
+            solution += corner_algorithm;
+        }
+
+        solution += (corner_swap_algorithm + " ");
+
+        if ( sticker != 'v' ) {
+            solution += (get_inverse_moves(corner_algorithm) + " ");
+        } else {
+            solution += get_inverse_moves(corner_algorithm);
+        }
+    }
+
+    // std::cout << std::endl;
+
+    // cube.execute(solution);
+    // cube.print();
+
+    // std::cout << std::endl;
+
+    return "R";
 }

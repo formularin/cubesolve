@@ -70,6 +70,32 @@ static std::map<char, std::string> edge_algorithms = {
     { 'W', "D L2" },
     { 'X', "L2" }
 };
+static std::map<char, std::string> corner_algorithms = {
+    // 'a' is a sticker of the buffer piece.
+    { 'b', "R2" },
+    { 'c', "R2 D'" },
+    { 'd', "F2" },
+    // 'e' is a sticker of the buffer piece.
+    { 'f', "F' D" },
+    { 'g', "D R' D'" },
+    { 'h', "D' R" },
+    { 'i', "F R'" },
+    { 'j', "R'" },
+    { 'k', "R' D' R" },
+    { 'l', "D2 R" },
+    { 'm', "F" },
+    { 'n', "R' F" },
+    { 'o', "D' R' D" },
+    { 'p', "F D" },
+    { 'q', "R D'" },
+    // 'r' is a sticker of the buffer piece.
+    { 's', "D2 R' D'" },
+    { 't', "R" },
+    { 'u', "D" },
+    { 'v', "" },
+    { 'w', "D'" },
+    { 'x', "D2" }
+};
 // Letters of pieces corresponding to colors.
 static std::map< vector<int>, vector<char> > edge_stickers_by_color = {
 //   Colors     Edges
@@ -135,6 +161,7 @@ static vector< vector<char> > corner_sticker_trios = {
 };
 
 static std::string edge_swap_algorithm = "R U R' U' R' F R2 U' R' U' R U R' F'";
+static std::string corner_swap_algorithm = "R U' R' U' R U R' F' R U R' U' R' F R";
 static std::string parity_algorithm = "R U R' F' R U2 R' U2 R' F R U R U2 R' U'";
 
 
