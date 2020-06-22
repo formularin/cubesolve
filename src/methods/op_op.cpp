@@ -356,13 +356,22 @@ std::string solve_op_op(Cube cube) {
     // =========================================
 
     for ( char edge : edge_memo ) {
-        solution += (edge_algorithms[edge] + " ");
+        std::string edge_algorithm = edge_algorithms[edge];
+        if ( edge != 'D' ) {
+            edge_algorithm += " ";
+        }
+
+        solution += (edge_algorithm);
         solution += (edge_swap_algorithm + " ");
-        solution += (get_inverse_moves(edge_algorithms[edge]) + " ");
+        solution += (get_inverse_moves(edge_algorithms[edge]));
     }
 
     // Parity
     // =========================================
+
+    if ( parity ) {
+        solution += parity_algorithm + " ";
+    }
 
     // Corners
     // =========================================
