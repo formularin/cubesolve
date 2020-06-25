@@ -401,6 +401,8 @@ std::string solve_op_op(Cube cube) {
         }
     }
 
+    solution = cancel_redundant_moves(solution);
+
     // std::cout << std::endl;
 
     // cube.execute(solution);
@@ -408,5 +410,5 @@ std::string solve_op_op(Cube cube) {
 
     // std::cout << std::endl;
 
-    return "R";
+    return solution;
 }

@@ -109,3 +109,22 @@ vector<char> utils::remove(vector<char> vec, char c) {
     vec.erase(std::remove(vec.begin(), vec.end(), c), vec.end());
     return vec;
 }
+
+
+int utils::mod(int a, int b) {
+
+    int sum = 0;
+
+    if (a < 0) {
+        sum = a;
+        while ( b - sum >= b ) {
+            sum += b;
+        }
+        return sum;
+    } else {
+        while ( a - sum >= b ) {
+            sum += b;
+        }
+        return a - sum;
+    }
+}

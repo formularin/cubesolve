@@ -38,6 +38,14 @@ static std::map<char, int> move_axes = {
     { 'B', 2 },
     { 'F', 2 }
 };
+static std::map<char, char> axis_pairs = {
+    { 'R', 'L' },
+    { 'L', 'R' },
+    { 'U', 'D' },
+    { 'D', 'U' },
+    { 'F', 'B' },
+    { 'B', 'F' }
+};
 // Which face is being rotated on each kind of move.
 static std::map<char, int> move_faces = {
     { 'F', 0 },
@@ -88,5 +96,7 @@ class Move {
 
 
 std::string get_inverse_moves(std::string moves);
+std::string cancel_moves(vector<std::string> moves);
+std::string cancel_redundant_moves(std::string moves);
 
 #endif
